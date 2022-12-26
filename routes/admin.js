@@ -39,7 +39,7 @@ upload = multer({
 router.get("/", (req, res) => {
 
   // console.log(admin);
-  res.render("admin/admin-login", { layout: "adminlayout" });
+  res.render("admin/admin-login", { layout: "adminLayout" });
 });
 
 
@@ -60,7 +60,7 @@ router.post("/adminpage", async (req, res) => {
       req.session.admin = response.admin
 
 
-      res.render("admin/dashboard", { layout: "adminlayout", admin: true, });
+      res.render("admin/dashboard", { layout: "adminLayout", admin: true, });
     } else {
       res.redirect('/admin/')
     }
@@ -267,7 +267,7 @@ router.post("/add-category", (req, res) => {
 
     image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
       if (!err) {
-        res.render("admin/add-category", { layout: "adminlayout", admin: true })
+        res.render("admin/add-category", { layout: "adminLayout", admin: true })
       } else {
       
       }
@@ -303,7 +303,7 @@ router.get('/edit-product/:id', async (req, res) => {
   let category = await productHelpers.getAllCategorys()
 
 
-  res.render('admin/edit-product', {layout:"adminlayout", product, admin: true ,category})
+  res.render('admin/edit-product', {layout:"adminLayout", product, admin: true ,category})
 })
 
 
