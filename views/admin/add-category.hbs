@@ -11,21 +11,23 @@
 
                 <div class="card-body">
                     <form action="/admin/add-category" method="post" enctype="multipart/form-data">
-                        {{!-- <div class="mb-4">
+                        <div class="mb-4">
                             <label for="product_name" class="form-label">Name</label>
-                            <input type="text" name="Name" placeholder="Type here" class="form-control"
+                          
+                            <input type="text" name="Name" placeholder="Type here" class="form-control"                   
                                 id="product_name">
+                                
                         </div>
-                        --}}
+                       
 
-                        <div class=" mb-3">
+                        {{!-- <div class=" mb-3">
                             <select class="form-select" id="product-offer" name="Name" required>
                                 <option selected>Choose Category</option>
                                 {{#each category}}
                                 <option value="{{this.Name}}">{{this.Name}}</option>
                                 {{/each}}
                             </select>
-                        </div>
+                        </div> --}}
 
                         <div class="card mb-4">
                             <div class="card-header">
