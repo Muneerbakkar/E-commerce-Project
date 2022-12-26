@@ -1,0 +1,197 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+	<div class="container">
+		<ul>
+			<li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+			<li>Cart</li>
+		</ul>
+	</div>
+</div>
+<!-- //products-breadcrumb -->
+<!-- banner -->
+<div class="banner">
+	<div class="w3l_banner_nav_left">
+		<nav class="navbar nav_bottom">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header nav_2">
+				<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+					data-target="#bs-megadropdown-tabs">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+				<ul class="nav navbar-nav nav_1">
+					{{#each category}}
+					<li><a href="products.html">{{this.Name}}</a></li>
+					{{/each}}
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+	</div>
+	<div class="w3l_banner_nav_right">
+		<!-- about -->
+		<div class="privacy about">
+			<h3>Car<span>t</span></h3>
+
+			<div class="checkout-right">
+				{{!-- <h4>Your shopping cart contains: <span>3 Products</span></h4> --}}
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>SL No.</th>
+							<th>Product</th>
+							<th>Product Name</th>
+							<th>Price</th>
+
+							<th>Quantity</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each products}}
+						<tr class="rem1">
+							<td class="invert">{{inc @index}}</td>
+
+							<td class="invert-image"><a href="single.html">
+									{{!-- <img src="/product-images/{{this.product._id}}.jpg" style="height:250%;" alt=" "
+										class="img-responsive"> --}}
+										 <img style="width:50px;height:50px;" src="{{this.product.image.[0]}}" alt=""> 
+								</a></td>
+							<td class="invert">{{this.product.Name}}</td>
+							<td class="invert">Rs:{{this.product.Offerprice}}</td>
+
+							<td class="invert">
+								<div class="quantity">
+									<div class="quantity-select">
+
+										{{!-- <div class="entry value-minus">&nbsp;</div> --}}
+										<button class="entry value-minus"
+											onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+										<div class="entry value"> <span id="{{this.product._id}}">{{this.quantity}}</span></div>
+
+										<button class="entry value-plus active"
+											onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+										{{!-- <div class="entry value-plus active">&nbsp;</div> --}}
+									</div>
+								</div>
+							</td>
+							<td class="invert">
+								<div class="rem">
+									{{!-- <div class="close1"> </div> --}}
+									{{!-- <a href="" class="close1 "></a> --}}
+									<a href="/delete-cart/{{this.product._id}}" class="btn btn-danger rounded font-sm"
+										onclick="return confirm('Are you sure to delete {{this.product.Name}}?')">Remove</a>
+								</div>
+							</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+			<div class="checkout-left">
+				<div class="col-md-4 checkout-left-basket">
+
+					<ul>
+						{{!-- <li>Product1 <i>-</i> <span>$15.00 </span></li>
+						<li>Product2 <i>-</i> <span>$25.00 </span></li>
+						<li>Product3 <i>-</i> <span>$29.00 </span></li>
+						<li>Total Service Charges <i>-</i> <span>$15.00</span></li> --}}
+						<li>Total<i>-</i> <span id="total">Rs.{{totalValue}}</span></li>
+					</ul>
+					<h4><a href="/place-order" style="color:white;">Place Order</a></h4>
+
+				</div>
+				{{!-- <div class="col-md-8 address_form_agile">
+					<h4>Add a new Details</h4>
+					<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+						<section class="creditly-wrapper wthree, w3_agileits_wrapper">
+							<div class="information-wrapper">
+								<div class="first-row form-group">
+									<div class="controls">
+										<label class="control-label">Full name: </label>
+										<input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
+									</div>
+									<div class="w3_agileits_card_number_grids">
+										<div class="w3_agileits_card_number_grid_left">
+											<div class="controls">
+												<label class="control-label">Mobile number:</label>
+												<input class="form-control" type="text" placeholder="Mobile number">
+											</div>
+										</div>
+										<div class="w3_agileits_card_number_grid_right">
+											<div class="controls">
+												<label class="control-label">Landmark: </label>
+												<input class="form-control" type="text" placeholder="Landmark">
+											</div>
+										</div>
+										<div class="clear"> </div>
+									</div>
+									<div class="controls">
+										<label class="control-label">Town/City: </label>
+										<input class="form-control" type="text" placeholder="Town/City">
+									</div>
+									<div class="controls">
+										<label class="control-label">Address type: </label>
+										<select class="form-control option-w3ls">
+											<option>Office</option>
+											<option>Home</option>
+											<option>Commercial</option>
+
+										</select>
+									</div>
+								</div>
+								<button class="submit check_out">Delivery to this Address</button>
+							</div>
+						</section>
+					</form>
+					<div class="checkout-right-basket">
+						<a href="payment.html">Make a Payment <span class="glyphicon glyphicon-chevron-right"
+								aria-hidden="true"></span></a>
+					</div>
+				</div> --}}
+
+				<div class="clearfix"> </div>
+
+			</div>
+
+		</div>
+		<!-- //about -->
+	</div>
+	<div class="clearfix"></div>
+</div>
+<!-- //banner -->
+
+<script>
+	function changeQuantity(cartId, proId, userId, count) {
+		let quantity = parseInt(document.getElementById(proId).innerHTML)
+		count = parseInt(count)
+
+		console.log(cartId, proId, userId)
+		$.ajax({
+			url: '/change-product-quantity',
+			data: {
+				user: userId,
+				cart: cartId,
+				product: proId,
+				count: count,
+				quantity: quantity
+			},
+			method: 'post',
+			success: (response) => {
+				if (response.removeProduct == true) {
+					if (confirm("Product Removed from Cart") == true)
+						location.reload()
+				} else {
+
+					document.getElementById(proId).innerHTML = quantity + count
+					document.getElementById('total').innerHTML = response.total
+				}
+
+			}
+		})
+	}
+</script>

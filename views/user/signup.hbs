@@ -1,0 +1,156 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Sign Up</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+<!-- login -->
+<div class="w3_login">
+  <h3>Sign Up</h3>
+  <div class="w3_login_module">
+    <div class="module form-module">
+      <div class=""><i class=""></i>
+       
+      </div>
+
+      <div class="form">
+        <h2>Create an account</h2>
+        <form action="/signup" method="post">
+          <input type="text" name="Username" placeholder="Username"   id="contact-name" onkeyup="validateName()" required="">
+          <p id="name-error" style="color: red;"></p>
+          <input type="password" name="Password" placeholder="Password"  id="contact-password" onkeyup="validatePassword()" required="">
+          <p id="password-error" style="color: red;"></p>
+          <input type="email" name="Email" placeholder="Email Address" id="contact-email" onkeyup="validateEmail()" required="">
+          <p id="email-error" style="color: red;"></p>
+          <input type="text" name="mobile" placeholder="Phone Number" id="contact-mobile" onkeyup="validateMobile()" required="">
+          <p id="mobile-error" style="color: red;"></p>
+          <input type="submit" value="Register" onclick="validateForm()" required="">
+          <p id="submit-error" style="color: red;"></p>
+          <a href="/login">Already have account</a>
+        </form>
+      </div>
+   
+    </div>
+  </div>
+  
+  <script>
+    var firstNameError = document.getElementById("name-error");
+var emailError = document.getElementById("email-error")
+var mobileError = document.getElementById("mobile-error")
+var passwordError = document.getElementById("password-error")
+var submitError = document.getElementById("submit-error");
+
+
+
+
+function validateName(){
+    var fname = document.getElementById("contact-name").value;
+
+    if(fname.length ==0){
+        firstNameError.innerHTML ='First Name required';
+        return false;
+    }
+    if(!fname.match(/(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/)){
+
+        firstNameError.innerHTML = 'Invalid name';
+        return false;
+    }
+    else{
+    firstNameError.innerHTML = '' ;
+    return true ;
+    }
+}
+
+
+function validateEmail(){
+    var email = document.getElementById("contact-email").value;
+    if(email.length==0){
+        emailError.innerHTML="Email required";
+        return false;
+    }
+    if(!email.match(/^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)){
+
+        emailError.innerHTML = 'Email Invalid';
+        return false;
+
+    }
+    emailError.innerHTML="";
+    return true;
+}
+
+function validatePassword(){
+  var password = document.getElementById("contact-password").value;
+    if(password.length==0){
+        passwordError.innerHTML="Password required";
+        return false;
+    }
+    passwordError.innerHTML="";
+    return true;
+}
+
+function validateMobile(){
+    var mobile = document.getElementById("contact-mobile").value;
+    if(mobile.length==0){
+        mobileError.innerHTML="Enter 10 digit mobile number";
+        return false;
+    }
+    if(!mobile.match(/^\d{10}$/)){
+    mobileError.innerHTML="Enter valid mobile number";
+    return false;
+    }
+    mobileError.innerHTML="";
+    return true;
+}
+
+
+function validateForm(){
+    if(!validateName()  || !validateEmail() || !validatePassword() ){
+    
+        submitError.innerHTML = 'Please fill the fields to submit';
+        setTimeout(function(){submitError.style.display = 'none';} , 4000)
+        return false;
+    }
+
+}
+  </script>
+</div>
+<!-- //login -->
+
+<!-- newsletter-top-serv-btm -->
+<div class="newsletter-top-serv-btm">
+  <div class="container">
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      </div>
+      <h3>Nam libero tempore</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+      </div>
+      <h3>officiis debitis aut rerum</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-truck" aria-hidden="true"></i>
+      </div>
+      <h3>eveniet ut et voluptates</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+</div>
+<!-- //newsletter-top-serv-btm -->
+
+

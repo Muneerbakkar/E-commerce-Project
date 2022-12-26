@@ -1,0 +1,68 @@
+
+
+    
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>View Orders</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+<section  style="margin: 100px;">
+  <div class="container mt-5">
+    <div class="row">
+      {{#each order}}
+      <div class="col-md-3 p-3" style="border: solid;margin:25px;">
+        <div class="card" style="width:15rem;height:15rem">
+          <img class="card-img-top" src="/product-images/{{product._id}}.jpg" alt="card image cap"
+            style="height:12rem;">
+        </div>
+        <div class="card-body">
+         <h5 class="card-title">{{this.product.Name}}</h5>
+         <p class="card-text">Rs.{{this.product.Offerprice}}</p>
+         <p class="card-text" style="margin-bottom: 40px;">Quantity : {{this.quantity}}</p>
+         <p class="card-text">{{this.Description}}</p>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<script>
+  function changeQuantity(cartId,proId,userId,count) {
+    let quantity = parseInt(document.getElementById(proId).innerHTML)
+    count = parseInt(count)
+    console.log(userId)
+
+    $.ajax({
+      url:'/change-product-quantity',
+      data:{
+        user:userId,
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+      },
+      method:'post',
+      
+      success:(response)=>{
+        if(response.removeProduct){
+          alert("Product Removed from cart")
+          location.reload()
+        }else {
+         console.log(response)
+         document.getElementById(proId).innerHTML = quantity + count
+         document.getElementById('total').innerHTML = response.total
+        }
+      }
+    })
+
+  }
+</script>
+
+

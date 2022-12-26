@@ -1,0 +1,57 @@
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Add New Category</h2>
+
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+
+                <div class="card-body">
+                    <form action="/admin/add-category" method="post" enctype="multipart/form-data">
+                        {{!-- <div class="mb-4">
+                            <label for="product_name" class="form-label">Name</label>
+                            <input type="text" name="Name" placeholder="Type here" class="form-control"
+                                id="product_name">
+                        </div>
+                        --}}
+
+                        <div class=" mb-3">
+                            <select class="form-select" id="product-offer" name="Name" required>
+                                <option selected>Choose Category</option>
+                                {{#each category}}
+                                <option value="{{this.Name}}">{{this.Name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Image</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-upload">
+                                    <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="imgView">
+                                    <input name="Image" class="form-control" type="file" onchange="viewImage(event)">
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+
+                        <div>
+                            <button class="btn btn-md rounded font-sm hover-up" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- card end// -->
+        </div>
+
+    </div>
+</section> <!-- content-main end// -->
+
+<script>
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

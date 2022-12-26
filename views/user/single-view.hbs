@@ -1,0 +1,324 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+	<div class="container">
+		<ul>
+			<li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+			<li>Description</li>
+		</ul>
+	</div>
+</div>
+<!-- //products-breadcrumb -->
+{{!-- <!-- banner -->
+<div class="banner">
+	<div class="w3l_banner_nav_left">
+		<nav class="navbar nav_bottom">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header nav_2">
+				<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+					data-target="#bs-megadropdown-tabs">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+				<ul class="nav navbar-nav nav_1">
+					<li><a href="products.html">Vegetables</a></li>
+					<li><a href="products.html">Fruits</a></li>
+					<li><a href="products.html">Exotic</a></li>
+					<li><a href="products.html">Fresh cuts</a></li>
+					<li><a href="products.html">Nutrition charges</a></li>
+					<li><a href="products.html">Packed flavors</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+	</div>
+	<div class="w3l_banner_nav_right">
+		<div class="w3l_banner_nav_right_banner3">
+			<h3>Best Deals For New Products<span class="blink_me"></span></h3>
+		</div>
+		<div class="agileinfo_single" id="img-container">
+			<h5>Fresh Bananas (1 Kg)</h5>
+			<div class="product-small-img">
+				<img src="http://localhost:3000/product-images/638f13b086815e9be5203da0.jpg" alt="">
+				<img src="http://localhost:3000/product-images/638f13b086815e9be5203da0.jpg" alt="">
+				<img src="http://localhost:3000/product-images/638f13b086815e9be5203da0.jpg" alt="">
+				<img src="http://localhost:3000/product-images/638f13b086815e9be5203da0.jpg" alt="">
+				<img src="http://localhost:3000/product-images/638f13b086815e9be5203da0.jpg" alt="">
+			</div>
+
+			<div class="col-md-4 agileinfo_single_left">
+
+				<img id="example" src="/product-images/6375e22755a55c9a536dcb36.jpg" alt=" " class="img-responsive" />
+			</div>
+			<div class="col-md-8 agileinfo_single_right">
+				<div class="rating1">
+					<span class="starRating">
+						<input id="rating5" type="radio" name="rating" value="5">
+						<label for="rating5">5</label>
+						<input id="rating4" type="radio" name="rating" value="4">
+						<label for="rating4">4</label>
+						<input id="rating3" type="radio" name="rating" value="3" checked>
+						<label for="rating3">3</label>
+						<input id="rating2" type="radio" name="rating" value="2">
+						<label for="rating2">2</label>
+						<input id="rating1" type="radio" name="rating" value="1">
+						<label for="rating1">1</label>
+					</span>
+				</div>
+				<div class="w3agile_description">
+					<h4>Description :</h4>
+					<p>A banana is an edible fruit – botanically a berry – produced by several
+						kinds of large herbaceous flowering plants in the genus Musa. In some countries,
+						bananas used for cooking may be called "plantains", distinguishing them from dessert
+						bananas.
+					</p>
+				</div>
+				<div class="snipcart-item block">
+					<div class="snipcart-thumb agileinfo_single_right_snipcart">
+						<h4>$10.00<span>$12.00</span></h4>
+					</div>
+					<div class="snipcart-details agileinfo_single_right_details">
+						<form action="#" method="post">
+							<fieldset>
+								<input type="hidden" name="cmd" value="_cart" />
+								<input type="hidden" name="add" value="1" />
+								<input type="hidden" name="business" value=" " />
+								<input type="hidden" name="item_name" value="pulao basmati rice" />
+								<input type="hidden" name="amount" value="21.00" />
+								<input type="hidden" name="discount_amount" value="1.00" />
+								<input type="hidden" name="currency_code" value="USD" />
+								<input type="hidden" name="return" value=" " />
+								<input type="hidden" name="cancel_return" value=" " />
+								<input type="submit" name="submit" value="Add to cart" class="button" />
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<!-- //banner --> --}}
+
+
+<div id="content-wrapper">
+
+
+	<div class="column">
+		{{!-- <img id="featured" src="images/1.jpg"> --}}
+		<img style="width:300px;height:300px;"  id="featured" src="{{product.image.[0]}}">
+		<div id="slide-wrapper">
+			{{!-- <img id="slideLeft" class="arrow" src="images/arrow-left.png"> --}}
+
+			<div id="slider">
+				<img class="thumbnail" src="{{product.image.[0]}}">
+				<img class="thumbnail" src="{{product.image.[1]}}">
+				<img class="thumbnail" src="{{product.image.[2]}}">
+				<img class="thumbnail" src="{{product.image.[3]}}">
+			</div>
+
+			{{!-- <img id="slideRight" class="arrow" src="images/arrow-right.png"> --}}
+		</div>
+	</div>
+
+	<div class="column">
+		<h1>{{product.Name}}</h1>
+		<hr>
+		<h3>Rs:{{product.Offerprice}}</h3>
+
+		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+			standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+			type specimen book.</p>
+
+	
+		{{!-- <a class="btn btn-success" href="#">Add to Cart</a> --}}
+					<button onclick="addToCart('{{this._id}}')" class="btn btn-success">Add To Cart</button>
+	</div>
+	
+</div>
+
+<script type="text/javascript">
+	let thumbnails = document.getElementsByClassName('thumbnail')
+
+	let activeImages = document.getElementsByClassName('active')
+
+	for (var i = 0; i < thumbnails.length; i++) {
+
+		thumbnails[i].addEventListener('mouseover', function () {
+			console.log(activeImages)
+
+			if (activeImages.length > 0) {
+				activeImages[0].classList.remove('active')
+			}
+
+
+			this.classList.add('active')
+			document.getElementById('featured').src = this.src
+		})
+	}
+
+
+	let buttonRight = document.getElementById('slideRight');
+	let buttonLeft = document.getElementById('slideLeft');
+
+	buttonLeft.addEventListener('click', function () {
+		document.getElementById('slider').scrollLeft -= 180
+	})
+
+	buttonRight.addEventListener('click', function () {
+		document.getElementById('slider').scrollLeft += 180
+	})
+
+
+</script>
+
+<style>
+	#content-wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.column {
+		width: 600px;
+		padding: 10px;
+
+	}
+
+	#featured {
+		margin: 7px;
+		max-width: 500px;
+		max-height: 600px;
+		object-fit: cover;
+		cursor: pointer;
+		border: 2px solid black;
+		transition: transform .2s;
+
+	}
+
+
+
+
+
+	#featured:hover {
+		-ms-transform: scale(1.5);
+		/* IE 9 */
+		-webkit-transform: scale(1.5);
+		/* Safari 3-8 */
+		transform: scale(1.5);
+	}
+
+	.thumbnail {
+		object-fit: cover;
+		max-width: 180px;
+		max-height: 100px;
+		cursor: pointer;
+		opacity: 0.5;
+		margin: 5px;
+		border: 2px solid black;
+
+	}
+
+	.thumbnail:hover {
+		opacity: 1;
+	}
+
+	.active {
+		opacity: 1;
+	}
+
+	#slide-wrapper {
+		max-width: 500px;
+		display: flex;
+		min-height: 100px;
+		align-items: center;
+	}
+
+	#slider {
+		width: 440px;
+		display: flex;
+		flex-wrap: nowrap;
+		overflow-x: hidden;
+
+	}
+
+	#slider::-webkit-scrollbar {
+		width: 8px;
+
+	}
+
+	#slider::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+	}
+
+	#slider::-webkit-scrollbar-thumb {
+		background-color: #dede2e;
+		outline: 1px solid slategrey;
+		border-radius: 100px;
+
+	}
+
+	#slider::-webkit-scrollbar-thumb:hover {
+		background-color: #18b5ce;
+	}
+
+	.arrow {
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+		transition: .3s;
+	}
+
+	.arrow:hover {
+		opacity: .5;
+		width: 35px;
+		height: 35px;
+	}
+</style>
+
+
+
+
+
+
+
+
+{{!--
+<script src='user-assets/js/okzoom.js'></script>
+<script>
+	$(function () {
+		$('#example').okzoom({
+			width: 150,
+			height: 150,
+			border: "1px solid black",
+			shadow: "0 0 5px #000"
+		});
+	});
+</script> --}}
+
+<script>
+	function addToCart(proId) {
+		console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+		$.ajax({
+
+			url: '/add-to-cart' + proId,
+			method: 'get',
+			success: (response) => {
+				if (response.status) {
+					let count = $('#cart-count').html()
+					count = parseInt(count) + 1
+					$("#cart-count").html(count)
+				}
+				location.reload()
+			}
+		})
+	}
+</script>

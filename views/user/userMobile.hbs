@@ -1,0 +1,169 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Sign In & Sign Up</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+<!-- login -->
+
+
+
+
+
+<div class="w3_login">
+  <h3>OTP login</h3>
+  <div class="w3_login_module">
+    <div class="module form-module">
+      <div class=""><i class=""></i>
+
+      </div>
+      <div class="form">
+        <h2>Login to your account</h2>
+        <form action="">
+          <div class="form-group mb-4">
+            <input id="phonenumber" type="number" value="" name="phonenumber" placeholder="Mobile number" required="" style="width: 320px;">
+            <p id="send" style='color: rgb(53,200,0);'></p>
+            <p id="error" style='color: rgb(300,0,0)'></p>
+            <span id="phonenumbers" class="mt-2 text-danger" style="font-size: 13px"></span>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-fill-out btn-block hover-up me-2"  name="login" onclick="sendOtp()">Get
+              OTP</button>
+            
+              <a href="login" class="" name="login">Login with password</a>
+
+          </div>
+          <div class="heading_s1">
+            <p class="mb-20 font-sm mt-3">Please enter the OTP to login.</p>
+          </div>
+          <div class="form-group mb-4">
+            <input type="number" id="verify" name="otp" placeholder="OTP" required="" style="width:320px ;">
+            <div class="d-flex justify-content-between">
+              <p id="confirm" style='color: rgb(300,0,0)'></p>
+              <a class="d-flex justify-content-end" id="resendOtp" onclick="sendOtp()"
+                style="display: none !important;">Resend
+                otp</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-fill-out btn-block hover-up me-2" name="login"
+              onclick="verifyOtp()">Login</button>
+            <a href="/" class="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand bg-white text-hover-white
+                                                                 ml-15 border-radius-5 btn-shadow-brand hover-up"
+              name="login" style="padding-left:1px;">Cancel</a>
+          </div>
+
+                   
+        </form>
+
+      </div>
+
+      <div class="cta"><a href="#">Forgot your password?</a></div>
+
+    </div>
+  </div>
+
+</div>
+<!-- //login -->
+</div>
+<div class="clearfix"></div>
+</div>
+<!-- //banner -->
+<!-- newsletter-top-serv-btm -->
+<div class="newsletter-top-serv-btm">
+  <div class="container">
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      </div>
+      <h3>Nam libero tempore</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+      </div>
+      <h3>officiis debitis aut rerum</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="col-md-4 wthree_news_top_serv_btm_grid">
+      <div class="wthree_news_top_serv_btm_grid_icon">
+        <i class="fa fa-truck" aria-hidden="true"></i>
+      </div>
+      <h3>eveniet ut et voluptates</h3>
+      <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+        saepe eveniet ut et voluptates repudiandae sint et.</p>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+</div>
+<!-- //newsletter-top-serv-btm -->
+
+<script>
+
+    function sendOtp() {
+        let phone = document.getElementById('phonenumber');
+        let phoneval = phone.value.trim();
+        let error3 = document.getElementById('error');
+
+        error3.innerText = ""
+
+        phone.addEventListener("keyup", () => {
+            error3.innerText = ""
+        })
+
+        if (phoneval == "") {
+            error3.innerText = 'This field is required'
+        } else if (!phoneval.match(/^(\+\d{1,3}[- ]?)?\d{10}$/) && !(phoneval.match(/0{5,}/))) {
+            error3.innerText = "Enter a valid mobile number"
+        } else {
+
+            sumbit();
+        }
+
+    }
+    function sumbit() {
+        console.log("submit test")
+        let sendOtp = document.getElementById('send').innerText = 'Otp send'
+        let num = document.getElementById('phonenumber').value.trim()
+
+        fetch('/otp_login?phoneNumber=91' + num + '&channel=sms', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+
+    function verifyOtp() {
+        const number = document.getElementById('phonenumber').value.trim()
+        const verify = document.getElementById('verify').value.trim()
+        fetch('/otp_verify?phoneNumber=91' + number + '&code=' + verify, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => res.json())
+            .then((res) => {
+                if (res.value == "success") {
+                    window.location.href = '/'
+                }
+                else {
+                    document.getElementById('confirm').innerText = 'Otp not valid'
+
+                    let resendOtp = document.getElementById('resendOtp')
+                    resendOtp.style.display = 'flex'
+                }
+            })
+    }
+
+
+</script>

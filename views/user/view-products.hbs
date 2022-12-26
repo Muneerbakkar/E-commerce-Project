@@ -1,0 +1,271 @@
+<!-- banner -->
+<div class="banner">
+	<div class="w3l_banner_nav_left">
+		<nav class="navbar nav_bottom">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header nav_2">
+				<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+					data-target="#bs-megadropdown-tabs">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+				<ul class="nav navbar-nav nav_1">
+					{{#each category}}
+					<li><a href="products.html">{{this.Name}}</a></li>
+					{{/each}}
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+	</div>
+	<div class="w3l_banner_nav_right">
+		<section class="slider">
+			<div class="flexslider">
+				<ul class="slides">
+					<li>
+						<div class="w3l_banner_nav_right_banner">
+							<h3>Make your <span>food</span> with Spicy.</h3>
+							<div class="more">
+								<a href="products.html" class="button--saqui button--round-l button--text-thick"
+									data-text="Shop now">Shop now</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3l_banner_nav_right_banner1">
+							<h3>Make your <span>food</span> with Spicy.</h3>
+							<div class="more">
+								<a href="products.html" class="button--saqui button--round-l button--text-thick"
+									data-text="Shop now">Shop now</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3l_banner_nav_right_banner2">
+							<h3>upto <i>50%</i> off.</h3>
+							<div class="more">
+								<a href="products.html" class="button--saqui button--round-l button--text-thick"
+									data-text="Shop now">Shop now</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<!-- flexSlider -->
+		<link rel="stylesheet" href="user-assets/css/flexslider.css" type="text/css" media="screen" property="" />
+		<script defer src="user-assets/js/jquery.flexslider.js"></script>
+		<script type="text/javascript">
+			$(window).load(function () {
+				$('.flexslider').flexslider({
+					animation: "slide",
+					start: function (slider) {
+						$('body').removeClass('loading');
+					}
+				});
+			});
+		</script>
+		<!-- //flexSlider -->
+	</div>
+	<div class="clearfix"></div>
+</div>
+<!-- banner -->
+<div class="banner_bottom">
+	<div class="wthree_banner_bottom_left_grid_sub">
+	</div>
+	<div class="wthree_banner_bottom_left_grid_sub1">
+		<div class="col-md-4 wthree_banner_bottom_left">
+			<div class="wthree_banner_bottom_left_grid">
+				<img src="user-assets/images/4.jpg" style="height:100%;" alt=" " class="img-responsive" />
+				<div class="wthree_banner_bottom_left_grid_pos">
+					<h4>Discount Offer <span>25%</span></h4>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 wthree_banner_bottom_left">
+			<div class="wthree_banner_bottom_left_grid">
+				<img src="user-assets/images/5.jpg" style="height:100%;" alt=" " class="img-responsive" />
+				<div class="wthree_banner_btm_pos">
+					<h3>introducing <span>best store</span> for <i>groceries</i></h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 wthree_banner_bottom_left">
+			<div class="wthree_banner_bottom_left_grid">
+				<img src="user-assets/images/6.jpg" style="height:100%;" alt=" " class="img-responsive" />
+				<div class="wthree_banner_btm_pos1">
+					<h3>Save <span>Upto</span> $10</h3>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+<!-- top-brands -->
+<div class="top-brands">
+	<div class="container">
+		<h3>Hot Offers</h3>
+
+		<section>
+			<div class="container">
+				<div class="row">
+					<div class="agile_top_brands_grids">
+						{{#each product}}
+
+						<div class="col-md-3 top_brand_left" style="margin-top:25px;">
+							<div class="hover14 column">
+								<div class="agile_top_brand_left_grid">
+									{{!-- <div class="tag"><img src="asset/images/tag.png" alt=" " class="img-responsive" /></div> --}}
+									<div class="agile_top_brand_left_grid1">
+										<figure>
+											<div class="snipcart-item block">
+												<div class="snipcart-thumb">
+													<span style="color: red;" class="blink_me">{{this.offer}}% off</span>
+													<a href="/product-view?id={{this._id}}">
+														{{!-- <img title=" " alt=" " style="width:100px;height:100px;"
+															src="/product-images/{{this._id}}.jpg" /> --}}
+														<img style="width:50px;height:50px;" src="{{this.image.[0]}}" alt="">
+													</a>
+
+													<p>{{this.Name}}</p>
+													<h4>Rs:{{this.Offerprice}}<span>Rs:{{this.Price}}</span></h4>
+												</div>
+												<div class="snipcart-details top_brand_home_details">
+													<button onclick="addToCart('{{this._id}}')" class="btn btn-success">Add To Cart</button>
+
+												</div>
+
+
+												<a onclick="addToWishlist('{{this._id}}')" class="btn"><svg xmlns="http://www.w3.org/2000/svg"
+														width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+														<path
+															d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+													</svg></a>
+
+
+
+												{{!-- <i onclick="addToWishlist('{{this._id}}')" class="bi bi-heart  " style="color: red;"><svg
+														xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+														class="bi bi-heart" viewBox="0 0 16 16">
+														<path
+															d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+													</svg></i> --}}
+
+											</div>
+										</figure>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{{/each}}
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+
+
+
+	</div>
+</div>
+<!-- //top-brands -->
+<!-- fresh-vegetables -->
+<div class="fresh-vegetables">
+	<div class="container">
+		<h3>Our Products</h3>
+		<div class="w3l_fresh_vegetables_grids">
+			<div class="col-md-3 w3l_fresh_vegetables_grid w3l_fresh_vegetables_grid_left">
+				<div class="w3l_fresh_vegetables_grid2">
+					<ul>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="products.html">Vegetables</a></li>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="vegetables.html">Fruits</a></li>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="vegetables.html">Exotic</a></li>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="drinks.html">Fresh cuts</a></li>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="pet.html">Nutrition charges</a></li>
+						<li><i class="fa fa-check" aria-hidden="true"></i><a href="bread.html">Packed flavors</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-9 w3l_fresh_vegetables_grid_right">
+				{{#each category}}
+				<div class="col-md-4 w3l_fresh_vegetables_grid">
+					<div class="w3l_fresh_vegetables_grid1">
+						<div class="w3l_fresh_vegetables_grid1_rel">
+							<a href=""></a>
+							<img src="/product-images/{{this._id}}.jpg" alt=" " class="img-responsive" />
+							</a>
+
+							<div class="w3l_fresh_vegetables_grid1_rel_pos">
+								<div class="more m1">
+									<a href="/product-view?id={{this._id}}" class="button--saqui button--round-l button--text-thick"
+										data-text="{{this.Name}}">{{this.Name}}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{/each}}
+
+
+
+
+
+				<div class="clearfix"> </div>
+				<div class="agileinfo_move_text">
+					<div class="agileinfo_marquee">
+						<h4>get <span class="blink_me">25% off</span> on first order and also get gift voucher</h4>
+					</div>
+					<div class="agileinfo_breaking_news">
+						<span> </span>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<!-- //fresh-vegetables -->
+
+<script>
+	function addToCart(proId) {
+		console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+		$.ajax({
+
+			url: '/add-to-cart' + proId,
+			method: 'get',
+			success: (response) => {
+				if (response.status) {
+					let count = $('#cart-count').html()
+					count = parseInt(count) + 1
+					$("#cart-count").html(count)
+				}
+				location.reload()
+			}
+		})
+	}
+</script>
+
+
+
+
+<script>
+	function addToWishlist(proId) {
+		console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+		$.ajax({
+
+			url: '/add-to-wishlist/' + proId,
+			method: 'get',
+			success: (response) => {
+
+			}
+		})
+	}
+</script>

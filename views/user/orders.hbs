@@ -1,0 +1,58 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Orders</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+<section style="margin:100px;">
+  <div class="container">
+    <div class="row mt-4">
+      {{!-- <a href="/admin/add-product" class="btn btn-success">Add Product</a> --}}
+    </div>
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th>Address</th>
+
+          <th scope="col">Amount</th>
+          <th scope="col">Payment</th>
+          <th scope="col">status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+        <tr>
+          <td>{{this.date}}</td>
+          <td>{{this.deliveryDetails}}</td>
+
+          <td>{{this.totalAmount}}</td>
+          <td>{{this.paymentMethod}}</td>
+          <td>{{this.status}}</td>
+
+          <td>
+
+
+            <a href="/view-orders-products?id={{this._id}}" class="btn btn-success">View Products</a>
+
+          </td>
+          <td>
+            <a href="/cancel-order/{{this._id}}" class="btn btn-danger rounded font-sm "
+              onclick="return confirm('Are you sure to cancel order {{this.Name}}?')">Cancel Order</a>
+          </td>
+
+          <td>
+            <a href="/invoice?id={{this._id}}" class="btn btn-info rounded font-sm ">invoice</a>
+          </td>
+
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

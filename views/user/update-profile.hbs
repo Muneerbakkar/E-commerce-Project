@@ -1,0 +1,65 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Checkout</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+
+
+
+
+
+
+
+
+<section>
+
+
+
+  <div class="container mt-5">
+
+    <form method="post" action="/update-profile?id={{address.0.address._id}}">
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom: 65px;">
+          <h2 style="margin-top: 65px;">Enter Delivery Details</h2><br>
+          <div>
+            <label for="">Name</label>
+
+            <input class="form-control" type="text" id="name" name="name" value="{{address.0.address.name}}">
+
+            <label for="">Address</label>
+
+            <input class="form-control" type="text" id="address" name="address" value="{{address.0.address.address}}">
+
+            <label for="">Email</label>
+
+            <input class="form-control" type="text" id="email" name="email" value="{{address.0.address.email}}">
+    
+
+            <label for="">Mobile</label>
+            <input class="form-control" type="text" id="mobile" name="mobile" value="{{address.0.address.mobile}}">
+            <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+          </div>
+          <button type="submit" class="btn btn-success" style="margin-top:10px;">Update</button>
+    </form>
+
+
+
+   
+      
+  
+
+
+  </div>
+  </form>
+  </div>
+</section>
+
+
+
+  

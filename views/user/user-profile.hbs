@@ -1,0 +1,100 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+	<div class="container">
+		<ul>
+			<li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+			<li>Checkout</li>
+		</ul>
+	</div>
+</div>
+<!-- //products-breadcrumb -->
+<!-- banner -->
+<div class="banner">
+	<div class="w3l_banner_nav_left">
+		<nav class="navbar nav_bottom">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header nav_2">
+				<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+					data-target="#bs-megadropdown-tabs">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+				<ul class="nav navbar-nav nav_1">
+					<li><a href="/orders">Orders</a></li>
+					<li><a href="/manage-address">Manage Address</a></li>
+
+
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+	</div>
+	<div class="w3l_banner_nav_right">
+		<!-- about -->
+		<div class="privacy about">
+
+
+
+			<div class="checkout-left">
+
+				<div class="col-md-8 address_form_agile">
+					<h4>Personal Information</h4>
+					<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+						<section class="creditly-wrapper wthree, w3_agileits_wrapper">
+							<div class="information-wrapper">
+								{{#each address}}
+								<div class="first-row form-group">
+
+									<div class="controls">
+										<label class="control-label"><span style="color: red;">Full name:</span>{{this.name}}</label>
+
+									</div>
+									<div class="w3_agileits_card_number_grids">
+										<div class="w3_agileits_card_number_grid_left">
+											<div class="controls">
+												<label class="control-label"><span style="color: red;">Mobile
+														number:</span>{{this.mobile}}</label>
+
+											</div>
+										</div>
+										<div class="w3_agileits_card_number_grid_right">
+											<div class="controls">
+												<label class="control-label"><span style="color: red;">Email:</span>{{this.email}}</label>
+
+											</div>
+										</div>
+										<div class="clear"> </div>
+									</div>
+
+
+									<div class="controls">
+										<label class="control-label"><span style="color: red;">Address:</span>{{this.address}}</label>
+
+									</div>
+								</div>
+
+								<a href="/update-profile?id={{this._id}}" class="btn btn-success">Edit</a>
+
+							<hr style="height:2px;border-width:0;color:black;background-color:black">
+								{{/each}}
+							</div>
+						</section>
+					</form>
+
+
+				</div>
+
+				<div class="clearfix"> </div>
+
+			</div>
+
+		</div>
+		<!-- //about -->
+	</div>
+	<div class="clearfix"></div>
+</div>
+<!-- //banner -->

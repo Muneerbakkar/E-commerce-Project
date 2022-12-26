@@ -1,0 +1,87 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Wishlist</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+<section style="margin:100px;">
+  <div class="container">
+
+    <table class="table mt-5" id="productsTable">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+
+
+
+          <th scope="col">Image</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          {{!-- <th scope="col">Options</th> --}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+          <th scope="row">{{inc @index}}</th>
+
+
+
+          {{!-- <td><img style="width: 50px;height: 50px;" src="/product-images/{{this._id}}.jpg" alt=""></td> --}}
+            <td><img style="width: 50px;height: 50px;" src="{{this.image.[0]}}" alt="">
+            </td>
+          <td>{{this.Name}}</td>
+          <td>{{this.Offerprice}}</td>
+          <td>
+            {{!-- <button class="btn btn-success">Add To Cart</button> --}}
+            <button onclick="addToCart('{{this._id}}')" class="btn btn-success">Add To Cart</button>
+          </td>
+        </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+{{!-- <script>
+  function addToCart(proId) {
+    console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+    $.ajax({
+
+      url: '/add-to-cart' + proId,
+      method: 'get',
+      success: (response) => {
+        if (response.status) {
+          let count = $('#cart-count').html()
+          count = parseInt(count) + 1
+          $("#cart-count").html(count)
+         
+        }
+         location.reload()
+      }
+    })
+  }
+</script> --}}
+
+<script>
+  function addToCart(proId) {
+    console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+    $.ajax({
+
+      url: '/add-to-cart' + proId,
+      method: 'get',
+      success: (response) => {
+     
+         location.reload()
+      }
+    })
+  }
+</script>
+

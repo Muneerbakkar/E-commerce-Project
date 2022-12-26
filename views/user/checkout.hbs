@@ -1,0 +1,323 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Checkout</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+
+
+
+
+
+
+
+
+<section>
+
+
+
+  <div class="container mt-5">
+
+    <form method="post" action="/add-address">
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom: 65px;">
+          <h2 style="margin-top: 65px;">Enter Delivery Details</h2><br>
+          <div>
+            <label for="">name</label>
+
+            <input class="form-control" type="text" id="name" name="name">
+
+            <label for="">Email</label>
+
+            <input class="form-control" type="text" id="email" name="email">
+
+            <label for="">Address</label>
+
+            <input class="form-control" type="text" id="address" name="address">
+            <label for="">Pincode</label>
+
+            <input class="form-control" type="text" id="pincode" name="pincode">
+
+            <label for="">Mobile</label>
+            <input class="form-control" type="text" id="mobile" name="mobile">
+            <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+          </div>
+          <button type="submit" class="btn btn-success" style="margin-top:10px;">add address</button>
+    </form>
+
+
+
+    <form id="checkout-form">
+
+      <div class="col-md-4">
+        <div class="container mt-5 ml-5 checkout" style="margin-top: 65px;width:150%">
+          {{!-- <h5>Total Amount : Rs.{{total}}</h5>
+          <span>Offer</span>
+          <strong style="color:green;">-₹ <class="" id="coupon-offer"></strong>
+          <span>Total (INR)</span>
+          <strong>₹ <span id="final-amount">{{total}}</span>
+          </strong> --}}
+          <li class=" list-group-item d-flex justify-content-between">
+            <span>Total</span>
+            <strong style="">₹ <class="" id="">{{total}}</strong>
+          </li>
+
+          <li class=" list-group-item d-flex justify-content-between">
+            <span>Offer</span>
+            <strong style="color:green;">-₹ <class="" id="coupon-offer"></strong>
+          </li>
+
+          <li class=" list-group-item d-flex justify-content-between">
+            <span>Total (INR)</span>
+            <strong>₹ <span id="final-amount">{{total}}</span>
+            </strong>
+          </li>
+          <hr>
+          <div class="payment">
+            <p>Payment method</p>
+            <label class="radio-inline" style="margin-top: 10px;">
+              <input type="radio" name="payment-method" value="COD" style="margin-left: -27px;margin-top:0px">COD
+            </label>
+            <label class="radio-inline mt-2">
+              <input type="radio" name="payment-method" value="ONLINE" style="margin-left: -27px;margin-top:0px">Online
+              payment
+              <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+              <input name="discount" type="hidden" id="discount" value=''>
+              <input name="total" type="hidden" id="totalCheckoutAmount" value="{{total}}">
+            </label>
+            {{#if wallet.walletBalance}}
+            <label class="radio-inline mt-2">
+              <input type="radio" name="payment-method" value="wallet" type="radio" id="wallet"
+                style="margin-left: -27px;margin-top:0px">Wallet
+              <input name="" type="hidden" id="totalCheckoutAmount" value="{{total}}">
+            </label>
+            {{/if}}
+            {{!-- {{#if wallet.walletBalance}}
+            <div class="custom-control custom-radio">
+              <label class="custom-control-label">
+                <input name="wallet" type="checkbox" class="custom-control-input" value="{{wallet.walletBalance}}"
+                  id="wallet">Use Wallet
+                <strong>(₹{{wallet.walletBalance}})</strong>
+              </label>
+            </div>
+            {{/if}} --}}
+            <button class="btn btn-success " type="submit" style="float:right;margin-top:25px;">Checkout</button>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-6" style="margin-top:55px;padding-left">
+
+    <div class="form-check">
+      {{#each address}}
+      <input class="form-check-input" type="radio" name="address"
+        value="{{this.name}},{{this.address}},{{this.pincode}},{{this.mobile}}">
+      <label class="form-check-label" for="flexRadioDefault1">
+        {{this.name}},
+        {{this.address}},
+        {{this.pincode}},
+        {{this.mobile}}
+
+      </label>
+      <br>
+      {{/each}}
+    </div>
+
+  </div>
+
+
+  </div>
+  </form>
+
+  <form class="card p-2" id="redeem-coupon" method="post">
+
+    <div><small style="color:red;" id="coupon-condition"></small></div>
+
+    <div class="input-group">
+      <input type="text" class="form-control" style="border-color:black;" id="coupon-form" name="coupon"
+        placeholder="Coupon code">
+      <div class="input-group-append">
+
+
+        <button type="submit" style="margin-top: 5px;" class="btn btn-success">Redeem</button>
+        {{!-- <a href="/redeem-coupon?id={{couponDetails._id}}" style="margin-top: 5px;"
+          class="btn btn-success">Redeem</a> --}}
+        <div id="coupon-condition"></div>
+      </div>
+    </div>
+  </form>
+
+
+  </div>
+
+
+</section>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+
+
+  //REDEEM COUPON
+  $('#redeem-coupon').submit((e) => {
+    e.preventDefault()
+    console.log('kjkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222222222')
+    $.ajax({
+      url: '/redeem-coupon',
+      method: 'post',
+      data: $('#redeem-coupon').serialize(),
+      success: (response) => {
+        if (!response.msg) {
+          $('#coupon-condition').text("")
+
+          $('#coupon-form').css('border-color', 'green')
+
+          $('#final-amount').text(response.total)
+
+          $('#coupon-offer').text(response.offer)
+
+
+
+
+
+
+          document.getElementById("discount").value = response.offer
+          document.getElementById("totalCheckoutAmount").value = response.total
+
+
+
+          document.getElementById("redeem-coupon").style.display = "none"
+        } else {
+
+          $('#coupon-condition').text(response.msg)
+
+          $('#coupon-form').css('border-color', 'red')
+
+          $('#final-amount').text(response.total)
+
+          $('#coupon-offer').text(response.offer)
+
+          $('#totalCheckoutAmount').val(response.total)
+        }
+      }
+    })
+  })
+
+
+  $("#checkout-form").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+      url: '/place-order',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+
+        if (response.codSuccess || response.walletSuccess) {
+          console.log("wallet")
+
+          swal.fire({
+            title: "Order Placed ",
+            type: 'success',
+            text: "congratulations!! ",
+            icon: "success",
+            confirmButtonColor: "#318a2c",
+            confirmButtonText: "Click here to See the Orders!",
+            closeOnConfirm: false
+          }
+          ).then((result) => {
+            if (result.isConfirmed) {
+              location.href = '/order-success'
+            }
+          })
+        }
+        else {
+          console.log("razo")
+          razorpayPayment(response)
+        }
+      }
+    })
+  })
+
+  function razorpayPayment(order) {
+    var options = {
+      "key": "rzp_test_yysuWbEnwk8Lqw", // Enter the Key ID generated from the Dashboard
+      "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Fresh Pick",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response) {
+
+
+        verifyPayment(response, order)
+
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#2BF75E"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+
+  function verifyPayment(payment, order) {
+    $.ajax({
+      url: '/verify-payment',
+      data: {
+        payment,
+        order
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href = '/order-success'
+        } else {
+          alert("Payment failed")
+        }
+      }
+    })
+  }
+
+</script>
+
+
+<style>
+  input[type=radio] {
+    width: 20px;
+    height: 20px;
+  }
+
+  label.radio-inline {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkout {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 30px
+  }
+
+  .payment {
+    padding-bottom: 16px;
+  }
+</style>

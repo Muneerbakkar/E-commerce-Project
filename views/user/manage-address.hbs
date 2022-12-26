@@ -1,0 +1,88 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+  <div class="container">
+    <ul>
+      <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+      <li>Checkout</li>
+    </ul>
+  </div>
+</div>
+<!-- //products-breadcrumb -->
+
+
+
+
+
+
+
+
+
+<section>
+
+
+
+  <div class="container mt-5">
+
+    <form method="post" action="/add-address">
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom: 65px;">
+          <h2 style="margin-top: 65px;">Enter Delivery Details</h2><br>
+          <div>
+            <label for="">name</label>
+
+            <input class="form-control" type="text" id="address" name="name">
+            <label for="">Email</label>
+
+            <input class="form-control" type="text" id="address" name="email">
+            <label for="">Address</label>
+
+            <input class="form-control" type="text" id="address" name="address">
+            <label for="">Pincode</label>
+
+            <input class="form-control" type="text" id="pincode" name="pincode">
+
+            <label for="">Mobile</label>
+            <input class="form-control" type="text" id="mobile" name="mobile">
+            <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+          </div>
+          <button type="submit" class="btn btn-success" style="margin-top:10px;">add address</button>
+    </form>
+
+
+
+    <form id="checkout-form">
+
+
+
+      <div class="col-md-6" style="margin-top:55px;padding-left">
+
+        <div class="form-check">
+          {{#each address}}
+          <input class="form-check-input" type="radio" name="address"
+            value="{{this.name}},{{this.address}},{{this.pincode}},{{this.mobile}}">
+          <label class="form-check-label" for="flexRadioDefault1">
+            {{this.name}},
+            {{this.address}},
+            {{this.pincode}},
+            {{this.mobile}}
+
+          </label>
+          <a href="/delete-address?id={{this._id}}" class="btn btn-danger btn-xs">Delete</a>
+          <br>
+
+          {{/each}}
+
+
+
+        </div>
+
+
+
+
+      </div>
+
+
+  </div>
+  </form>
+  </div>
+</section>

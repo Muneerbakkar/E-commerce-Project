@@ -1,0 +1,385 @@
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+    <div class="container">
+        <ul>
+            <li><i class="fa fa-home" aria-hidden="true"></i><a href="/">Home</a><span>|</span></li>
+            <li>Cart</li>
+        </ul>
+    </div>
+</div>
+<!-- //products-breadcrumb -->
+{{!-- <div class="container mt-5 mb-5">
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+            <div class="col-xl-5  justify-content-end pt-5 pb-5">
+                <input type="button" id="rep" value="Download as Pdf" class="btn btn-danger btn_print me-3">
+            </div>
+            <div class="card" id="container_content">
+
+
+                <div class="text-left logo p-2 px-5">
+
+                    <img src="https://fresh-pick.in/public/web/images/header-logo2.png" width="100" height="50">
+
+                </div>
+
+                <div class="invoice p-5">
+
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Order Date</span>
+                                            <span>{{orders.date}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Order No</span>
+                                            <span></span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Payment</span>
+                                            <span>{{orders.paymentMethod}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Shiping Address</span>
+                                            <span>{{orders.deliveryDetails}}</span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+
+
+
+                    </div>
+
+
+
+
+                    <div class="product border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        <span class="font-weight-bold"></span>
+                                    </td>
+                                    <td width="60%">
+                                        <span class="font-weight-bold"></span>
+                                        <div class="product-qty">
+                                            <span class="d-block">Quantity:</span>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right">
+                                            <span class="font-weight-bold"></span>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right">
+                                            <span class="font-weight-bold"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <p> applied to this order</p>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div class="row d-flex justify-content-end">
+
+                        <div class="col-md-5">
+
+                            <table class="table table-borderless">
+
+                                <tbody class="totals">
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Subtotal</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Shipping Fee</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹0.00</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="font-weight-bold">Subtotal:Rs:{{orders.totalAmount}}</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span class="font-weight-bold"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <p>You can view or download this invoice anytime and hardcopy of the same is sent along with the
+                        product!
+                    </p>
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                    <span></span>
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div> --}}
+
+<div class="col-xl-5  justify-content-end pt-5 pb-5">
+    <input style="float:right;margin:20px" type="button" id="rep" value="Download as Pdf"
+        class="btn btn-danger btn_print  btn-xs me-3">
+          
+</div>
+
+<div class="container">
+    <div class="container">
+        <div class="row" id="container">
+            <div class="col-md-6 col-md-offset-3 body-main">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img" alt="Invoce Template"
+                                src="http://pngimg.com/uploads/shopping_cart/shopping_cart_PNG59.png" />
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <h4 style="color: gr;"><strong>Farm Pick</strong></h4>
+                            <p>221 ,Baker Street</p>
+                            <p>1800-234-124</p>
+                            <p>example@gmail.com</p>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h2>INVOICE</h2>
+
+                            <h5>{{this.orders._id}}</h5>
+
+                        </div>
+                    </div>
+                    <br />
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <h5>Description</h5>
+                                    </th>
+
+                                    <th>
+                                        <h5>Amount</h5>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td class="col-md-9">{{this.product.Name}}</td>
+                                    <td class="col-md-3"><i class="fas fa-rupee-sign"
+                                            area-hidden="true"></i>Rs:{{this.product.Offerprice}}</td>
+
+                                </tr>
+                                {{/each}}
+
+                                <tr>
+                                    <td class="text-right">
+
+
+                                        <p>
+                                            <strong>Offerprice:</strong>
+                                        </p>
+
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <strong><i class="fas fa-rupee-sign" area-hidden="true"></i></strong>
+                                        </p>
+
+                                        <p>
+                                            <strong><i class="fas fa-rupee-sign" area-hidden="true"></i></strong>
+                                        </p>
+
+
+                                        <p>
+                                            <strong><i class="fas fa-rupee-sign"
+                                                    area-hidden="true"></i>Rs:{{this.orders.totalAmount}}</strong>
+                                        </p>
+
+                                    </td>
+                                </tr>
+                                <tr style="color: #F81D2D;">
+                                    <td class="text-right">
+                                        <h4><strong>Total:</strong></h4>
+                                    </td>
+                                    <td class="text-left">
+                                        <h4><strong><i class="fas fa-rupee-sign"
+                                                    area-hidden="true"></i>Rs:{{this.orders.totalAmount}}
+                                            </strong></h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="col-md-12">
+                            <p><b>Date :</b>{{this.orders.date}}</p>
+                            <br />
+                            <p><b>Signature</b></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .body-main {
+        background: #ffffff;
+        border-bottom: 15px solid #1E1F23;
+        border-top: 15px solid #1E1F23;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 40px 30px !important;
+        position: relative;
+        box-shadow: 0 1px 21px #808080;
+        font-size: 10px;
+
+
+
+    }
+
+    .main thead {
+        background: #1E1F23;
+        color: #fff;
+    }
+
+    .img {
+        height: 100px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+</style>
+
+<script>
+    // /PDF AND EXCEL//
+    $(document).ready(function ($) {
+        $(document).on('click', '.btn_print', function (event) {
+            event.preventDefault();
+            var element = document.getElementById('container');
+
+            let randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1;
+
+            var opt =
+            {
+                margin: 0,
+                filename: 'pageContent_' + randomNumber + '.pdf',
+                html2canvas: { scale: 10 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+{{!------------------------------------- HTMLTOEXCEL -------------------------------------}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>

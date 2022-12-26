@@ -1,0 +1,51 @@
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Category List </h2>
+            <p>Edit or delete a Category</p>
+        </div>
+       
+    </div>
+    <div class="card mb-4">
+      
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th scope="col">Name</th>
+                          
+                            <th scope="col">Image</th>
+                            <th scope="col" class=""> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each categorys}}
+                        <tr>
+                            <td>{{inc @index}}</td>
+                            <td><b>{{this.Name}}</b></td>
+                           
+                           
+                            <td><img style="width:50px;height:50px;" src="/product-images/{{this._id}}.jpg" alt=""></td>
+                            <td class="">
+                                <a href="/admin/edit-category/{{this._id}}" class="btn btn-info rounded font-sm">Edit</a>
+                                <a href="/admin/delete-category/{{this._id}}" class="btn btn-danger rounded font-sm"
+                                    onclick="return confirm('Are you sure to delete {{this.Name}}?')">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+   
+</section> <!-- content-main end// -->
+
+
+<script>
+   $(document).ready( function () {
+    $('#productsTable').DataTable();
+} );
+</script>
