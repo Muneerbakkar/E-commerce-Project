@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var productHelpers = require("../helpers/product-Helpers");
+var productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 const userHelper = require("../helpers/user-helpers");
 const adminHelpers = require("../helpers/admin-helpers")
