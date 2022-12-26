@@ -68,7 +68,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.get("/signup", (req, res) => {
-  res.render("user/signup", { layout: "userLayout" });
+  res.render("user/signup", { layout: "userlayout" });
 });
 
 // router.post("/signup", (req, res) => {
