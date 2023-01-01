@@ -43,34 +43,34 @@
           <td>
             {{!-- <a href="/cancel-order/{{this._id}}" class="btn btn-danger rounded font-sm "
               onclick="return confirm('Are you sure to cancel order {{this.Name}}?')">Cancel Order</a> --}}
-               {{#ifCheck this.status "shipped"}}
-              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
-              {{/ifCheck}}
-              {{#ifCheck this.status "pending"}}
-              {{!-- <a href="/users/cancelorder/{{this._id}}" class="btn btn-primary">Cancel Order</a> --}}
-              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
-              {{/ifCheck}}
+            {{#ifCheck this.status "shipped"}}
+            <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+            {{/ifCheck}}
+            {{#ifCheck this.status "pending"}}
+            {{!-- <a href="/users/cancelorder/{{this._id}}" class="btn btn-primary">Cancel Order</a> --}}
+            <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+            {{/ifCheck}}
 
-              {{#ifCheck this.status "placed"}}
-              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
-              {{/ifCheck}}
-
-
+            {{#ifCheck this.status "placed"}}
+            <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+            {{/ifCheck}}
 
 
 
 
-              {{#ifCheck this.status "delivered"}}
-              {{!-- <a href="/users/returnorder/{{this._id}}" class="btn btn-danger">Return Order</a> --}}
-              <button class="btn btn-danger" onclick="returnOrder('{{this._id}}')">Return Order</button>
-              {{/ifCheck}}
+
+
+            {{#ifCheck this.status "delivered"}}
+            {{!-- <a href="/users/returnorder/{{this._id}}" class="btn btn-danger">Return Order</a> --}}
+            <button class="btn btn-danger" onclick="returnOrder('{{this._id}}')">Return Order</button>
+            {{/ifCheck}}
 
 
 
 
-              {{#ifCheck this.status "canceled"}}
-              <p>order canceled</p>
-              {{/ifCheck}}
+            {{#ifCheck this.status "canceled"}}
+            <p>order canceled</p>
+            {{/ifCheck}}
           </td>
 
           <td>
@@ -82,14 +82,30 @@
       </tbody>
     </table>
   </div>
+  <div class="pagination-area mt-15 mb-50" style="margin-left:90px;">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-start">
+        {{#each pages}}
+        <li class="page-item active"><a class="page-link" style="margin-right:2px;" href="/orders?page={{this}}">{{this}}</a></li>
+        {{/each}}
+
+        {{!-- <li class="page-item"><a class="page-link" href="/admin/view-orders/?page=2">2</a></li>
+        <li class="page-item"><a class="page-link" href="/admin/view-orders/?page=3">3</a></li>
+        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+        <li class="page-item"><a class="page-link" href="#">16</a></li>
+        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+        --}}
+      </ul>
+    </nav>
+  </div>
 </section>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 
- 
- //RETURN ORDER CANCEL
+
+  //RETURN ORDER CANCEL
   function returnOrder(orderId) {
 
     swal.fire({
@@ -102,24 +118,24 @@
       cancelButtonText: "No, return please!",
       closeOnConfirm: false,
       closeOnCancel: true
-    }).then((result)=>{
-      if(result.isConfirmed){
-      
-             $.ajax({
-            url: '/return-order',
-            method: 'post',
-            data: {
-              orderId
-            },
-            success: (response) => {
-              if (response.status) {
-                location.reload()
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-              } else {
-                return false
-              }
+        $.ajax({
+          url: '/return-order',
+          method: 'post',
+          data: {
+            orderId
+          },
+          success: (response) => {
+            if (response.status) {
+              location.reload()
+
+            } else {
+              return false
             }
-          })
+          }
+        })
       }
     })
   }
@@ -128,21 +144,21 @@
 
 
   //USER ORDER CANCEL this is workingggggg
-function cancelOrder(orderId) {
- 
-  swal.fire({
-    title: "Are you sure?",
-    text: "Do you want to cancel the order",
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#DD6B55",
-    confirmButtonText: "Yes, Cancel my order",
-    cancelButtonText: "No, cancel please!",
-    closeOnConfirm: false,
-    closeOnCancel: true
-  }).then((result)=>{
-     if (result.isConfirmed) {
-        
+  function cancelOrder(orderId) {
+
+    swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to cancel the order",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Cancel my order",
+      cancelButtonText: "No, cancel please!",
+      closeOnConfirm: false,
+      closeOnCancel: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
         $.ajax({
           url: '/cancel-order',
           method: 'post',
@@ -160,8 +176,8 @@ function cancelOrder(orderId) {
           }
         })
       }
-  })
-}
+    })
+  }
 
 
 </script>

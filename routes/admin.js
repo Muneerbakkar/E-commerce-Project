@@ -76,8 +76,14 @@ router.get("/test", async (req, res) => {
     res.json(response)
 
   })
+})
 
+router.get("/test3", async (req, res) => {
+  await adminHelpers. paymentMethod().then((response) => {
+console.log(response,"lllllllbbbbbbbbbbbbbbb");
+    res.json(response)
 
+  })
 })
 
 //SALES REPORT
@@ -224,6 +230,7 @@ router.get('/coupon-management', async (req, res) => {
 
 //ADD COUPON
 router.post('/add-coupon', (req, res) => {
+  console.log("nnnnnnnnnnnnnnnnnnnnn");
   adminHelpers.addCoupon(req.body).then(() => {
     res.json({ status: true })
   }).catch(() => {

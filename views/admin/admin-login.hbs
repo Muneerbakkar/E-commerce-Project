@@ -1,18 +1,64 @@
 <section class="content-main mt-80 mb-80">
-            <div class="card mx-auto card-login">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Sign in</h4>
-                    <form action="/admin/adminpage" method="post">
-                        <div class="mb-3">
-                            <input name="email" class="form-control" placeholder="email" type="email">
-                        </div> <!-- form-group// -->
-                        <div class="mb-3">
-                            <input name="password" class="form-control" placeholder="Password" type="password">
-                        </div> <!-- form-group// -->
-                        <div class="mb-4">
-                            <button type="submit" class="btn btn-primary w-100"> Login </button>
-                        </div> <!-- form-group// -->
-                    </form>
-                </div>
-            </div>
-        </section>
+    <div class="card mx-auto card-login">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Sign in</h4>
+            <form action="/admin/adminpage" method="post">
+                <div class="mb-3">
+                    <input name="email" class="form-control" placeholder="email" type="email" id="adminEmail" onkeyup="validateadminEmail()" required="">
+                     <p id="adminEmail-error" style="color: red;"></p>
+                </div> <!-- form-group// -->
+                <div class="mb-3">
+                    <input name="password" class="form-control" placeholder="Password" type="password" id="adminPassword" onkeyup="validateadminPassword()">
+                    <p id="adminPassword-error" style="color: red;"></p>
+                </div> <!-- form-group// -->
+                <div class="mb-4">
+                    <button type="submit" class="btn btn-primary w-100" onclick="validateadminForm()" required=""> Login </button>
+                     <p id="adminSubmit-error" style="color: red;"></p>
+                </div> <!-- form-group// -->
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+ var emailError = document.getElementById("adminEmail-error")
+ var passwordError = document.getElementById("adminPassword-error")
+ var submitError = document.getElementById("adminSubmit-error");
+
+     function validateadminEmail() {
+      var email = document.getElementById("adminEmail").value;
+      if (email.length == 0) {
+        emailError.innerHTML = "Email required";
+        return false;
+      }
+      if (!email.match(/^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)) {
+
+        emailError.innerHTML = 'Email Invalid';
+        return false;
+
+      }
+      emailError.innerHTML = "";
+      return true;
+    }
+
+    function validateadminPassword() {
+      var password = document.getElementById("adminPassword").value;
+      if (password.length == 0) {
+        passwordError.innerHTML = "Password required";
+        return false;
+      }
+      passwordError.innerHTML = "";
+      return true;
+    }
+
+    
+    function validateadminForm() {
+      if (!validateadminEmail() || !validateadminPassword()) {
+
+        submitError.innerHTML = 'Please fill the fields to submit';
+        setTimeout(function () { submitError.style.display = 'none'; }, 4000)
+        return false;
+      }
+
+    }
+</script>

@@ -15,108 +15,112 @@
   <div class="w3_login_module">
     <div class="module form-module">
       <div class=""><i class=""></i>
-       
+
       </div>
 
       <div class="form">
         <h2>Create an account</h2>
         <form action="/signup" method="post">
-          <input type="text" name="Username" placeholder="Username"   id="contact-name" onkeyup="validateName()" required="">
+          <input type="text" name="Username" placeholder="Username" id="contact-name" onkeyup="validateName()"
+            required="">
           <p id="name-error" style="color: red;"></p>
-          <input type="password" name="Password" placeholder="Password"  id="contact-password" onkeyup="validatePassword()" required="">
+          <input type="password" name="Password" placeholder="Password" id="contact-password"
+            onkeyup="validatePassword()" required="">
           <p id="password-error" style="color: red;"></p>
-          <input type="email" name="Email" placeholder="Email Address" id="contact-email" onkeyup="validateEmail()" required="">
+          <input type="email" name="Email" placeholder="Email Address" id="contact-email" onkeyup="validateEmail()"
+            required="">
           <p id="email-error" style="color: red;"></p>
-          <input type="text" name="mobile" placeholder="Phone Number" id="contact-mobile" onkeyup="validateMobile()" required="">
+          <input type="text" name="mobile" placeholder="Phone Number" id="contact-mobile" onkeyup="validateMobile()"
+            required="">
           <p id="mobile-error" style="color: red;"></p>
           <input type="submit" value="Register" onclick="validateForm()" required="">
           <p id="submit-error" style="color: red;"></p>
           <a href="/login">Already have account</a>
         </form>
       </div>
-   
+
     </div>
   </div>
-  
+
   <script>
     var firstNameError = document.getElementById("name-error");
-var emailError = document.getElementById("email-error")
-var mobileError = document.getElementById("mobile-error")
-var passwordError = document.getElementById("password-error")
-var submitError = document.getElementById("submit-error");
+    var emailError = document.getElementById("email-error")
+    var mobileError = document.getElementById("mobile-error")
+    var passwordError = document.getElementById("password-error")
+    var submitError = document.getElementById("submit-error");
 
 
 
 
-function validateName(){
-    var fname = document.getElementById("contact-name").value;
+    function validateName() {
+      var fname = document.getElementById("contact-name").value;
 
-    if(fname.length ==0){
-        firstNameError.innerHTML ='First Name required';
+      if (fname.length == 0) {
+        firstNameError.innerHTML = 'First Name required';
         return false;
-    }
-    if(!fname.match(/(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/)){
+      }
+      if (!fname.match(/(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/)) {
 
         firstNameError.innerHTML = 'Invalid name';
         return false;
+      }
+      else {
+        firstNameError.innerHTML = '';
+        return true;
+      }
     }
-    else{
-    firstNameError.innerHTML = '' ;
-    return true ;
-    }
-}
 
 
-function validateEmail(){
-    var email = document.getElementById("contact-email").value;
-    if(email.length==0){
-        emailError.innerHTML="Email required";
+    function validateEmail() {
+      var email = document.getElementById("contact-email").value;
+      if (email.length == 0) {
+        emailError.innerHTML = "Email required";
         return false;
-    }
-    if(!email.match(/^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)){
+      }
+      if (!email.match(/^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)) {
 
         emailError.innerHTML = 'Email Invalid';
         return false;
 
+      }
+      emailError.innerHTML = "";
+      return true;
     }
-    emailError.innerHTML="";
-    return true;
-}
 
-function validatePassword(){
-  var password = document.getElementById("contact-password").value;
-    if(password.length==0){
-        passwordError.innerHTML="Password required";
+    function validatePassword() {
+      var password = document.getElementById("contact-password").value;
+      if (password.length == 0) {
+        passwordError.innerHTML = "Password required";
         return false;
+      }
+      passwordError.innerHTML = "";
+      return true;
     }
-    passwordError.innerHTML="";
-    return true;
-}
 
-function validateMobile(){
-    var mobile = document.getElementById("contact-mobile").value;
-    if(mobile.length==0){
-        mobileError.innerHTML="Enter 10 digit mobile number";
+    function validateMobile() {
+      var mobile = document.getElementById("contact-mobile").value;
+      if (mobile.length == 0) {
+        mobileError.innerHTML = "Enter 10 digit mobile number";
         return false;
+      }
+      if (!mobile.match(/^\d{10}$/)) {
+        mobileError.innerHTML = "Enter valid mobile number";
+        return false;
+      }
+      mobileError.innerHTML = "";
+      return true;
     }
-    if(!mobile.match(/^\d{10}$/)){
-    mobileError.innerHTML="Enter valid mobile number";
-    return false;
-    }
-    mobileError.innerHTML="";
-    return true;
-}
 
 
-function validateForm(){
-    if(!validateName()  || !validateEmail() || !validatePassword() ){
-    
+    function validateForm() {
+      if (!validateName() || !validateEmail() || !validatePassword()) {
+
         submitError.innerHTML = 'Please fill the fields to submit';
-        setTimeout(function(){submitError.style.display = 'none';} , 4000)
-        return false;
-    }
+        setTimeout(function () { submitError.style.display = 'none'; }, 4000)
+        return false;
+      }
 
-}
+    }
   </script>
 </div>
 <!-- //login -->
@@ -152,5 +156,3 @@ function validateForm(){
   </div>
 </div>
 <!-- //newsletter-top-serv-btm -->
-
-

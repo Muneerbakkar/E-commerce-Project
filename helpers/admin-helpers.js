@@ -251,6 +251,31 @@ module.exports = {
 
     },
 
+    paymentMethod:()=>{
+        console.log('dgdsgbsdbgj');
+        return new Promise(async(resolve, reject) => {
+          await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+            {
+              '$project': {
+                'paymentMethod': 1, 
+                '_id': 0
+              }
+            }, {
+              '$group': {
+                '_id': '$paymentMethod', 
+                'count': {
+                  '$sum': 1
+                }
+              }
+            }
+          ]).toArray().then((response)=>{
+            console.log(response,"jjjjjjjjjgggggggggggggg");
+            resolve(response)
+
+          })
+        })
+      },
+
 
     //GET COUPONS
     getCoupon: () => {

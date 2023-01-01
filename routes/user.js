@@ -300,11 +300,21 @@ router.get('/order-success', (req, res) => {
 
 
 router.get('/orders', async (req, res) => {
-  id = req.session.user._id
-  let orders = await userHelper.getUserOrders(id)
+  console.log(req.query.page,"mmmmmmbbbbbbbbbbbb");
+  const pageNum = req.query.page;
+  perPage = 5
+  let orderCount = await userHelpers.getOrdersCount()
+  console.log(orderCount,"jjjjjjjhhhhhhhhhhhh");
+  pageCount = Math.ceil(orderCount / perPage)
+  var pages = [];
+  for (var i = 1; i <= pageCount; i++) {
+    pages.push(i);
+  }
+  // id = req.session.user._id
+  // let orders = await userHelper.getUserOrders(id)
   // let orders = await userHelper.getUserOrders()
-
-  res.render('user/orders', { user: req.session.user, orders })
+  let orders = await adminHelpers.getAllOrders(pageNum)
+  res.render('user/orders', { user: req.session.user, orders,pages })
 })
 
 

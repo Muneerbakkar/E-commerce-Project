@@ -527,7 +527,8 @@ module.exports = {
         products: products,
         totalAmount: parseInt(order.total),
         status: status,
-        date: new Date()
+        date: new Date(),
+        displayDate:new Date().toString()
       }
       db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
   
@@ -590,6 +591,16 @@ module.exports = {
    
     })
   },
+
+  getOrdersCount: () => {
+
+    return new Promise(async (resolve, reject) => {
+        await db.get().collection(collection.ORDER_COLLECTION).countDocuments().then(orderCount => {
+
+            resolve(orderCount)
+        })
+    })
+},
 
   getOrderProd: (id) => {
     return new Promise(async (resolve, reject) => {

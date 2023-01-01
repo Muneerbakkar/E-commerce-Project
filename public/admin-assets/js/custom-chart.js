@@ -167,31 +167,7 @@
                 });
             } //End if
 
-            /Sale statistics Chart/
-            if($('#myChart2').length){
-            var ctx = document.getElementById('myChart2').getContext('2d');
-            var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-            var yValues = [55, 49, 44, 24, 15];
-            var barColors = ["red", "green", "blue", "orange", "brown"];
-
-            var chart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
-                    }]
-                },
-                options: {
-                    legend: { display: false },
-                    title: {
-                        display: true,
-                        text: "World Wine Production 2018"
-                    }
-                }
-            });
-        }
+       
     }
     })
 
