@@ -79,7 +79,7 @@ router.get("/test", async (req, res) => {
 })
 
 router.get("/test3", async (req, res) => {
-  await adminHelpers. paymentMethod().then((response) => {
+  await adminHelpers.paymentMethod().then((response) => {
 console.log(response,"lllllllbbbbbbbbbbbbbbb");
     res.json(response)
 
