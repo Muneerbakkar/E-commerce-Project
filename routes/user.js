@@ -99,7 +99,7 @@ router.post('/signup', (req, res) => {
 
 router.post("/login", async (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
-    if (response.user.isBlocked) {
+    if (response.user?.isBlocked) {
       req.session.loginErr = "You are blocked";
       res.render("user/login", { loginErr: req.session.loginErr });
     } else {
@@ -142,7 +142,7 @@ router.get("/product-view", async (req, res) => {
   let user = req.session.user;
   let categoryDetails = await productHelpers.getCategoryProduct(id);
 
-  let categoryName = categoryDetails[0].Name
+  let categoryName = categoryDetails[0]?.Name
 
   let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: categoryName }).toArray()
 
