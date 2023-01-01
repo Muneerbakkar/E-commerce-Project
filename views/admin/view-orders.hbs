@@ -52,7 +52,62 @@
 
               <td>{{this.totalAmount}}</td>
               <td>{{this.paymentMethod}}</td>
-              <td>{{this.status}}</td>
+              {{!-- <td>{{this.status}}</td> --}}
+            
+
+              <td class="align-middle fw-b" id="select">
+
+
+                {{#ifCheck this.status 'delivered'}}
+                <option value="delivered">Delivered</option>
+                {{/ifCheck}}
+
+
+                {{#ifCheck this.status 'canceled'}}
+                <option value="canceled">Cancelled</option>
+                {{/ifCheck}}
+
+
+                {{#ifCheck status 'placed'}}
+                <select class="form-control" id="{{this._id}}1" onchange="statusChange('{{this._id}}')"
+                  style="width: 90px;">
+                  <option selected="true" disabled="disabled" style="background-color: blue; color: white;">
+                    {{this.status}}</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+                {{/ifCheck}}
+
+
+
+                {{#ifCheck status 'pending'}}
+                <select class="form-control" id="{{this._id}}1" onchange="statusChange('{{this._id}}')"
+                  style="width: 90px;">
+                  <option selected="true" disabled="disabled" style="background-color: blue; color: white;">
+                    {{this.status}}</option>
+                  {{!-- <option value="pending">Pending</option> --}}
+                  <option value="placed">Placed</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+                {{/ifCheck}}
+
+
+                {{#ifCheck status 'shipped'}}
+                <select class="form-control" id="{{this._id}}1" onchange="statusChange('{{this._id}}')"
+                  style="width: 90px;">
+                  <option selected="true" disabled="disabled" style="background-color: blue; color: white;">
+                    {{this.status}}</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+                {{/ifCheck}}
+
+
+              </td>
+
               {{!-- <td><span class="badge rounded-pill alert-success">{{this.status}}</span></td> --}}
               {{!--
               <td>
@@ -70,12 +125,12 @@
               </td> --}}
 
               <td class="text-end">
-                <a href="/view-orders-products{{this._id}}" class="btn btn-info rounded font-sm"><svg
+                {{!-- <a href="/view-orders-products{{this._id}}" class="btn btn-info rounded font-sm"><svg
                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
                     viewBox="0 0 16 16">
                     <path
                       d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
-                  </svg></a>
+                  </svg></a> --}}
                 <a href="/cancel-order/{{this._id}}" class="btn btn-danger rounded font-sm"
                   onclick="return confirm('Are you sure to cancel order {{this.Name}}?')"><svg
                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
@@ -111,3 +166,49 @@
     </nav>
   </div>
 </section> <!-- content-main end// -->
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  //ADMIN ORDER STATUS
+  function statusChange(orderId, status) {
+
+    var status = document.getElementById(orderId + 1).value;
+   
+    swal.fire({
+   
+      title: "Are you sure?",
+      text: "Do you want to " + status + " the order",
+    
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, " + status + " it!",
+      cancelButtonText: "No!",
+  
+    }).then((result) => {
+    if (result.isConfirmed){
+        console.log(orderId, status,"ddddddddddddssssssssss")
+        $.ajax({
+          url: '/admin/order-status',
+          data: {
+            orderId,
+            status
+          },
+          method: 'post',
+          success: (response) => {
+            if (response.status) {
+              document.getElementById(orderId).innerHTML = status
+              if (status == 'pending' || status == 'placed' || status == 'shipped' || status == 'delivered' || status == 'canceled') {
+                location.reload()
+              }
+            }
+          }
+        })
+      
+    } 
+      
+    })
+  }
+
+
+</script> 

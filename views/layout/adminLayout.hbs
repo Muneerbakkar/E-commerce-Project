@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>GroceryStore Dashboard</title>
+    <title>Fresh Pick Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,14 +18,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="/admin-assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="/admin-assets/css/main.css" rel="stylesheet" type="text/css" />
-    {{!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"> --}}
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+{{!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
 
 </head>
 
@@ -34,9 +33,11 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
-                <img src="https://dcassetcdn.com/design_img/1187964/51618/51618_6273994_1187964_40a33890_image.jpg"
-                    class="logo" alt="Evara Dashboard">
+                         {{!-- <img src="/admin-assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">          --}}
+                       
             </a>
+            <h5 style="color:green;margin:20px">FreshPick.Store</h5>
+           
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
                 </button>
@@ -46,7 +47,7 @@
         <nav>
             <ul class="menu-aside">
                 <li class="menu-item active">
-                    <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                    <a class="menu-link" href="/admin/admin-dashboard"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>

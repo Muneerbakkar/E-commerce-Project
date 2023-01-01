@@ -43,28 +43,131 @@ module.exports = {
                     if (status) {
                         response.admin = admin
                         response.status = true
-                       
+
                         resolve(response)
                     } else {
                         response.status = false
-                     
+
                         resolve(response)
                     }
                 })
             } else {
                 response.status = false
-              
+
                 resolve(response)
             }
 
         })
     },
 
-    addCategory: (category) => {
-    
+
+       //SALES REPORT
+       deliveredOrderList: (yy, mm) => {
+        return new Promise(async (resolve, reject) => {
+            let agg = [{
+                $match: {
+                    'status': 'delivered'
+                }
+            }, {
+                $unwind: {
+                    path: '$products'
+                }
+            }, {
+                $project: {
+                    item: '$products.item',
+                    totalAmount: '$totalAmount',
+                    paymentMethod: '$paymentMethod',
+                    statusUpdateDate: '$statusUpdateDate',
+                }
+            }, {
+                $lookup: {
+                    from: 'product',
+                    localField: 'item',
+                    foreignField: '_id',
+                    as: 'result'
+                }
+            }, {
+                $project: {
+                    totalAmount: 1,
+                    productPrice: '$result.Offerprice',
+                    statusUpdateDate: 1,
+                    paymentMethod: '$paymentMethod'
+                }
+            }]
+
+            if (mm) {
+                let start = "1"
+                let end = "30"
+                let fromDate = mm.concat("/" + start + "/" + yy)
+                let fromD = new Date(new Date(fromDate).getTime() + 3600 * 24 * 1000)
+
+                let endDate = mm.concat("/" + end + "/" + yy)
+                let endD = new Date(new Date(endDate).getTime() + 3600 * 24 * 1000)
+                dbQuery = {
+                    $match: {
+                        statusUpdateDate: {
+                            $gte: fromD,
+                            $lte: endD
+                        }
+                    }
+                }
+                agg.unshift(dbQuery)
+                let deliveredOrders = await db
+                    .get()
+                    .collection(collection.ORDER_COLLECTION)
+                    .aggregate(agg).toArray()
+                resolve(deliveredOrders)
+            } else if (yy) {
+                let dateRange = yy.daterange.split("-")
+                let [from, to] = dateRange
+                from = from.trim("")
+                to = to.trim("")
+                fromDate = new Date(new Date(from).getTime() + 3600 * 24 * 1000)
+                toDate = new Date(new Date(to).getTime() + 3600 * 24 * 1000)
+                dbQuery = {
+                    $match: {
+                        statusUpdateDate: {
+                            $gte: fromDate,
+                            $lte: toDate
+                        }
+                    }
+                }
+                agg.unshift(dbQuery)
+                let deliveredOrders = await db
+                    .get()
+                    .collection(collection.ORDER_COLLECTION)
+                    .aggregate(agg).toArray()
+                resolve(deliveredOrders)
+            } else {
+                let deliveredOrders = await db
+                    .get()
+                    .collection(collection.ORDER_COLLECTION)
+                    .aggregate(agg).toArray()
+                resolve(deliveredOrders)
+            }
+        })
     },
 
-
+    //TOTAL AMOUNT OF DELIVERED PRODUCTS
+    totalAmountOfdelivered: () => {
+        return new Promise(async (resolve, reject) => {
+            let amount = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    '$match': {
+                        'status': 'delivered'
+                    }
+                }, {
+                    '$group': {
+                        '_id': null,
+                        'total': {
+                            '$sum': '$totalAmount'
+                        }
+                    }
+                }
+            ]).toArray()
+            resolve(amount[0]?.total)
+        })
+    },
 
     getAllOrders: (pageNum) => {
         const perPage = 5;
@@ -81,13 +184,38 @@ module.exports = {
 
     },
 
+    // order details
+    getOrderDetails: (pagenumber, limit) => {
+        return new Promise(async (resolve, reject) => {
+         
+
+            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).find().skip(pagenumber * limit).limit(limit).toArray()
+
+          
+            resolve(orderItems)
+        })
+    },
+
+
+    //ORDER STATUS
+    changeOrderStatus: ( orderId, status) => {
+     
+        return new Promise((resolve, reject) => {
+            let dateStatus = new Date()
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id:objectId(orderId) },
+                { $set: { status: status, statusUpdateDate:dateStatus} }).then(() => {
+                    resolve(status)
+                })
+        })
+    },
+
 
 
     getOrdersCount: () => {
 
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.ORDER_COLLECTION).countDocuments().then(orderCount => {
-            
+
                 resolve(orderCount)
             })
         })
@@ -115,7 +243,7 @@ module.exports = {
                 }
             ]).toArray().then((respo) => {
                 resolve(respo)
-             
+
             })
 
 
@@ -149,7 +277,7 @@ module.exports = {
                     resolve()
                 })
             } else {
-             
+
                 reject()
             }
         })
@@ -158,7 +286,7 @@ module.exports = {
     //DELETE COUPON
     deleteCoupon: (id) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(id)})
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) })
             resolve()
         })
     },

@@ -23,7 +23,7 @@ upload = multer({
     let ext = path.extname(file.originalname)
     if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp") {
       cb(new Error("File type is not supported"), false)
-      console.log('Its workinggggggggggggggggggggg');
+
       return
     }
     cb(null, true)
@@ -38,7 +38,7 @@ upload = multer({
 /* GET users listing. */
 router.get("/", (req, res) => {
 
-  // console.log(admin);
+
   res.render("admin/admin-login", { layout: "adminLayout" });
 });
 
@@ -50,7 +50,6 @@ router.get("/", (req, res) => {
 router.post("/adminpage", async (req, res) => {
 
 
-  console.log(req.body);
 
   let adminData = req.body;
 
@@ -67,9 +66,13 @@ router.post("/adminpage", async (req, res) => {
   });
 });
 
+router.get('/admin-dashboard', (req, res) => {
+  res.render('admin/dashboard', { layout: "adminLayout", admin: true, })
+})
+
 router.get("/test", async (req, res) => {
   await adminHelpers.getDailySalesGraph().then((response) => {
-   
+
     res.json(response)
 
   })
@@ -77,15 +80,33 @@ router.get("/test", async (req, res) => {
 
 })
 
+//SALES REPORT
+router.get('/sales-report', async (req, res) => {
+  if (req.query?.month) {
+    let month = req.query?.month.split("-")
+    let [yy, mm] = month;
+
+    deliveredOrders = await adminHelpers.deliveredOrderList(yy, mm)
+  } else if (req.query?.daterange) {
+    deliveredOrders = await adminHelpers.deliveredOrderList(req.query);
+  } else {
+    deliveredOrders = await adminHelpers.deliveredOrderList();
+  }
+  let amount = await adminHelpers.totalAmountOfdelivered()
+
+  res.render('admin/sales-report', { layout: "adminLayout", admin: true, deliveredOrders, amount })
+})
+
+
 router.get("/view-products", function (req, res, next) {
   productHelpers.getAllProducts().then((products) => {
-    
+
     res.render("admin/view-products", { layout: "adminLayout", admin: true, products });
   });
 });
 router.get("/view-category", function (req, res, next) {
   productHelpers.getAllCategorys().then((categorys) => {
-    
+
     res.render("admin/view-category", { layout: "adminLayout", admin: true, categorys })
   })
 })
@@ -134,7 +155,7 @@ router.get('/offer-management', async (req, res) => {
 
 
 router.post("/addProductOffer", async (req, res) => {
- 
+
 
 
   offerDetails = req.body;
@@ -142,7 +163,7 @@ router.post("/addProductOffer", async (req, res) => {
   id = offerDetails.id;
 
   let product = await productHelpers.getSingleProduct(id)
-  
+
   let priceDetails = await productHelpers.getproductPrice(id)
 
   productHelpers.addProductOffer(req.body, priceDetails, product).then((response) => {
@@ -156,7 +177,7 @@ router.post("/addCategoryOffer", async (req, res) => {
   offerDetails = req.body,
     Name = offerDetails.Name;
 
- 
+
   // let product = await productHelpers.getSingleProduct(id)
   let products = await productHelpers.getCategoryProducts(Name)
 
@@ -169,29 +190,29 @@ router.post("/addCategoryOffer", async (req, res) => {
 //DELETE PRODUCT OFFER    
 router.get('/delete-product-offer', async (req, res) => {
 
-  id =req.query.id
+  id = req.query.id
   let products = await productHelpers.getSingleProduct(id)
 
   productHelpers.deleteProductOffer(id, products).then((product) => {
-   res.redirect("/admin/offer-management")
+    res.redirect("/admin/offer-management")
   })
 })
 
 //DELETE CATEGORY OFFER
 router.get('/delete-category-offer', async (req, res) => {
 
-  id=req.query.id;
-  let category = await productHelpers.getCategoryDetails(id)  
+  id = req.query.id;
+  let category = await productHelpers.getCategoryDetails(id)
 
   productHelpers.deleteCategoryOffer(category).then((response) => {
     res.redirect("/admin/offer-management")
-  })
+  })
 })
 
-router.get('/coupon-management',async (req,res)=>{
+router.get('/coupon-management', async (req, res) => {
   let coupon = await adminHelpers.getCoupon()
 
-  res.render('admin/coupon-management',{layout:'adminLayout',admin:true,coupon})
+  res.render('admin/coupon-management', { layout: 'adminLayout', admin: true, coupon })
 })
 
 // router.post('/offer-management/delete-product-offer/:id', async (req, res) => {
@@ -206,7 +227,7 @@ router.post('/add-coupon', (req, res) => {
   adminHelpers.addCoupon(req.body).then(() => {
     res.json({ status: true })
   }).catch(() => {
-   
+
     res.json({ status: false })
   })
 })
@@ -214,10 +235,10 @@ router.post('/add-coupon', (req, res) => {
 //DELETE COUPON
 router.get('/delete-coupon', (req, res) => {
 
-  id=req.query.id;
+  id = req.query.id;
   adminHelpers.deleteCoupon(id).then((response) => {
     res.redirect('/admin/coupon-management')
-  })
+  })
 })
 
 
@@ -227,13 +248,13 @@ router.post("/add-products", upload.fields([
   { name: 'image3', maxCount: 1 },
   { name: 'image4', maxCount: 1 },
 ]), async (req, res) => {
-  
-  
+
+
   const cloudinaryImageUploadMethod = (file) => {
-   
+
     return new Promise((resolve) => {
       cloudinary.uploader.upload(file, (err, res) => {
-       
+
         // if (err) return res.status(500).send("Upload Image Error")
         if (err) return res.status(500).send("Upload Image Error")
         resolve(res.secure_url)
@@ -258,22 +279,55 @@ router.post("/add-products", upload.fields([
   })
 });
 
-
-router.post("/add-category", (req, res) => {
-
-
-  productHelpers.addCategory(req.body, (id) => {
-    let image = req.files.Image;
-
-    image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
-      if (!err) {
-        res.render("admin/add-category", { layout: "adminLayout", admin: true })
-      } else {
-      
-      }
+router.post('/add-category', upload.fields([
+  { name: 'image1', maxCount: 1 },
+  // { name: 'image2', maxCount: 1 },
+  // { name: 'image3', maxCount: 1 },
+  // { name: 'image4', maxCount: 1 },
+]), async (req, res) => {
+  const cloudinaryImageUploadMethod = (file) => {
+    return new Promise((resolve) => {
+      cloudinary.uploader.upload(file, (err, res) => {
+        if (err) return res.status(500).send("Upload Image Error")
+        resolve(res.secure_url)
+      })
     })
+  }
+  const files = req.files
+  let arr1 = Object.values(files)
+  let arr2 = arr1.flat()
+  const urls = await Promise.all(
+    arr2.map(async (file) => {
+      const { path } = file
+      const result = await cloudinaryImageUploadMethod(path)
+      return result
+
+    })
+  )
+
+ 
+
+  productHelpers.addCategory(req.body, urls).then((id) => {
+    res.render("admin/add-category", { layout: "adminLayout", admin: true })
   })
-})
+});
+
+
+// router.post("/add-category", (req, res) => {
+
+
+//   productHelpers.addCategory(req.body, (id) => {
+//     let image = req.files.Image;
+
+//     image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
+//       if (!err) {
+//         res.render("admin/add-category", { layout: "adminLayout", admin: true })
+//       } else {
+
+//       }
+//     })
+//   })
+// })
 
 router.get("/delete-product/:id", (req, res) => {
   let proId = req.params.id;
@@ -285,7 +339,7 @@ router.get("/delete-product/:id", (req, res) => {
 
 router.get("/delete-category/:id", (req, res) => {
   let catId = req.params.id;
- 
+
   productHelpers.deleteCategory(catId).then((response) => {
     res.redirect("/admin/view-category")
   })
@@ -303,7 +357,7 @@ router.get('/edit-product/:id', async (req, res) => {
   let category = await productHelpers.getAllCategorys()
 
 
-  res.render('admin/edit-product', {layout:"adminLayout", product, admin: true ,category})
+  res.render('admin/edit-product', { layout: "adminLayout", product, admin: true, category })
 })
 
 
@@ -355,7 +409,7 @@ router.post('/edit-product/:id', upload.fields([
 
     return new Promise((resolve) => {
       cloudinary.uploader.upload(file, (err, res) => {
-    
+
         // if (err) return res.status(500).send("Upload Image Error")
         resolve(res.secure_url)
       })
@@ -373,9 +427,9 @@ router.post('/edit-product/:id', upload.fields([
     })
   )
 
-  productHelpers.updateProduct(req.params.id, req.body, urls,img).then((id) => {
+  productHelpers.updateProduct(req.params.id, req.body, urls, img).then((id) => {
     res.redirect('/admin/view-products')
-  })
+  })
 })
 
 
@@ -385,15 +439,54 @@ router.get("/edit-category/:id", async (req, res) => {
   res.render("admin/edit-category", { layout: "adminLayout", category, admin: true })
 })
 
-router.post("/edit-category/:id", (req, res) => {
+// router.post("/edit-category/:id", (req, res) => {
 
+//   let id = req.params.id;
+//   productHelpers.updateCategory(req.params.id, req.body).then(() => {
+//     res.redirect("/admin/view-category");
+//     if (req.files.Image) { 
+//       let image = req.files.Image;
+//       image.mv("./public/product-images/" + id + ".jpg")
+//     }
+//   })
+// })
+
+router.post("/edit-category/:id",upload.fields([
+  { name: 'image1', maxCount: 1 },
+]),async (req, res) => {
+  let img = {}
+  if (req.files.image1) {
+    img.img1 = true
+  } else {
+    img.img1 = false
+  }
   let id = req.params.id;
-  productHelpers.updateCategory(req.params.id, req.body).then(() => {
+
+  const cloudinaryImageUploadMethod = (file) => {
+
+    return new Promise((resolve) => {
+      cloudinary.uploader.upload(file, (err, res) => {
+
+        // if (err) return res.status(500).send("Upload Image Error")
+        resolve(res.secure_url)
+      })
+    })
+  }
+
+  const files = req.files
+  let arr1 = Object.values(files)
+  let arr2 = arr1.flat()
+  const urls = await Promise.all(
+    arr2.map(async (file) => {
+      const { path } = file
+      const result = await cloudinaryImageUploadMethod(path)
+      return result
+    })
+  )
+
+  productHelpers.updateCategory(req.params.id, req.body,urls,img).then((id) => {
     res.redirect("/admin/view-category");
-    if (req.files.Image) {
-      let image = req.files.Image;
-      image.mv("./public/product-images/" + id + ".jpg")
-    }
+
   })
 })
 
@@ -412,7 +505,20 @@ router.get('/view-orders', async (req, res, next) => {
   res.render('admin/view-orders', { layout: "adminLayout", admin: true, orders, pages })
 })
 
+//ORDER STATUS
+router.get('/orders/:status', (req, res) => {
+  adminHelpers.getOrderDetails(req.params.status).then((response) => {
+    res.json(response)
+  })
+})
 
+
+router.post('/order-status', (req, res) => {
+
+  adminHelpers.changeOrderStatus(req.body.orderId, req.body.status).then(() => {
+    res.json({ status: true })
+  })
+})
 
 
 
@@ -423,13 +529,13 @@ router.get("/view-Users", async (req, res, next) => {
       .collection(collection.USER_COLLECTION)
       .find()
       .toArray();
-   
+
     res.render("admin/viewUsers", { usersdetails, layout: "adminLayout", admin: true });
   });
 });
 
 router.get("/block/:id", async (req, res) => {
- 
+
   let userId = req.params.id;
   let user = await db
     .get()

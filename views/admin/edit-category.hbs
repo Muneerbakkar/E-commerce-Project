@@ -22,8 +22,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="input-upload">
-                                        <img src="/product-images/{{category._id}}.jpg" alt="" id="imgView" >
-                                        <input name="Image" class="form-control" type="file" onchange="viewImage(event)">
+                                        {{!-- <img src="/product-images/{{category._id}}.jpg" alt="" id="imgView" > --}}
+                                         <img style="width:100px;" src="{{category.image.[0]}}" alt="">
+                                        <input name="image1" class="form-control" type="file" onchange="viewImage(event)">
                                     </div>
                                 </div>
                                 

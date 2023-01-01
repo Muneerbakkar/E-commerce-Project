@@ -21,17 +21,25 @@ module.exports = {
       //   product.stock = Number(product.stock)
       product.image = urls
       db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product).then((data) => {
-    
+
         let id = data.insertedId
         resolve(id)
       })
     })
   },
 
-  addCategory: (category, callback) => {
-    db.get().collection('category').insertOne(category).then((data) => {
-      callback(data.insertedId.toString())
+  addCategory: (category, urls) => {
+    return new Promise((resolve, reject) => {
+      category.image = urls
+      category.Name = category.Name
+
+      db.get().collection('category').insertOne(category).then((data) => {
+        let id = data.insertedId
+        resolve(id)
+        // callback(data.insertedId.toString())
+      })
     })
+
   },
 
 
@@ -68,7 +76,7 @@ module.exports = {
   deleteProduct: (prodId) => {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectId(prodId) }).then((response) => {
- 
+
         resolve(response)
       })
     })
@@ -118,123 +126,123 @@ module.exports = {
   },
 
 
-//edit product
-updateProduct: (proId, proDetails, urls, img) => {
+  //edit product
+  updateProduct: (proId, proDetails, urls, img) => {
 
-  return new Promise(async (resolve, reject) => {
-    let pro = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) })
-  
-    let image1 = pro.image[0]
-    let image2 = pro.image[1]
-    let image3 = pro.image[2]
-    let image4 = pro.image[3]
-    let uploadImg = []
-    if (img.img1) {
-      uploadImg[0] = urls[0]
-      if (urls == null) {
+    return new Promise(async (resolve, reject) => {
+      let pro = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(proId) })
+
+      let image1 = pro.image[0]
+      let image2 = pro.image[1]
+      let image3 = pro.image[2]
+      let image4 = pro.image[3]
+      let uploadImg = []
+      if (img.img1) {
+        uploadImg[0] = urls[0]
+        if (urls == null) {
+        } else {
+          urls.shift()
+        }
       } else {
-        urls.shift()
+        uploadImg[0] = image1
       }
-    } else {
-      uploadImg[0] = image1
-    }
-    if (img.img2) {
-      uploadImg[1] = urls[0]
-      if (urls == null) {
+      if (img.img2) {
+        uploadImg[1] = urls[0]
+        if (urls == null) {
 
+        } else {
+          urls.shift()
+        }
       } else {
-        urls.shift()
-      }
-    } else {
-      uploadImg[1] = image2
-    }
-
-    if (img.img3) {
-      uploadImg[2] = urls[0]
-      if (urls == null) {
-
-      } else {
-        urls.shift()
-      }
-    } else {
-      uploadImg[2] = image3
-    }
-
-    if (img.img4) {
-      uploadImg[3] = urls[0]
-      if (urls == null) {
-
-      } else {
-        urls.shift()
-      }
-    } else {
-      uploadImg[3] = image4
-    }
-
-
-
-
-    let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ Name: pro.Category })
-
-    let checkCategoryOffer = category.categoryDiscount
-    let checkProductOffer = pro.OfferPrice
-
-    // if (checkCategoryOffer==0) {
-
-    // } else {
-
-    // }
-    if (checkProductOffer || checkCategoryOffer) {
-
-      if (checkProductOffer > checkCategoryOffer) {
-
-        currentOffer = checkProductOffer
-
-        discount = pro.Price * currentOffer / 100
-
-      } else {
-
-        currentOffer = checkCategoryOffer
-
-        discount = pro.Price * currentOffer / 100
-
+        uploadImg[1] = image2
       }
 
-   
+      if (img.img3) {
+        uploadImg[2] = urls[0]
+        if (urls == null) {
 
-      pro.Offerprice = parseInt(pro.Price) - discount
+        } else {
+          urls.shift()
+        }
+      } else {
+        uploadImg[2] = image3
+      }
+
+      if (img.img4) {
+        uploadImg[3] = urls[0]
+        if (urls == null) {
+
+        } else {
+          urls.shift()
+        }
+      } else {
+        uploadImg[3] = image4
+      }
 
 
-      pro.Offerprice = parseInt(Math.ceil(pro.Offerprice))
-
-    }
-
-    pro.Price = parseInt( pro.Price)
-    // proDetails.stock =parseInt( proDetails.stock)
 
 
-    db.get().collection(collection.PRODUCT_COLLECTION)
-      .updateOne({ _id: objectId(proId) }, {
-        $set: {
-          Name: proDetails.name,
-          // description: proDetails.description,
-          Category: proDetails.category,
-          Price: proDetails.price,
+      let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ Name: pro.Category })
 
-          Offerprice: pro.Offerprice,
+      let checkCategoryOffer = category.categoryDiscount
+      let checkProductOffer = pro.OfferPrice
 
-          Offerprice: proDetails.stock,
-          image: uploadImg,
+      // if (checkCategoryOffer==0) {
 
-          // offerPrice: proDetails.offerprice
+      // } else {
+
+      // }
+      if (checkProductOffer || checkCategoryOffer) {
+
+        if (checkProductOffer > checkCategoryOffer) {
+
+          currentOffer = checkProductOffer
+
+          discount = pro.Price * currentOffer / 100
+
+        } else {
+
+          currentOffer = checkCategoryOffer
+
+          discount = pro.Price * currentOffer / 100
 
         }
-      }).then((response) => {
- 
-        resolve()
-      })
-    })
-  },
+
+
+
+        pro.Offerprice = parseInt(pro.Price) - discount
+
+
+        pro.Offerprice = parseInt(Math.ceil(pro.Offerprice))
+
+      }
+
+      pro.Price = parseInt(pro.Price)
+      // proDetails.stock =parseInt( proDetails.stock)
+
+
+      db.get().collection(collection.PRODUCT_COLLECTION)
+        .updateOne({ _id: objectId(proId) }, {
+          $set: {
+            Name: proDetails.name,
+            // description: proDetails.description,
+            Category: proDetails.category,
+            Price: proDetails.price,
+
+            Offerprice: pro.Offerprice,
+
+            Offerprice: proDetails.stock,
+            image: uploadImg,
+
+            // offerPrice: proDetails.offerprice
+
+          }
+        }).then((response) => {
+
+          resolve()
+        })
+    })
+  },
 
 
   getproductPrice: (id) => {
@@ -309,7 +317,7 @@ updateProduct: (proId, proDetails, urls, img) => {
   //       }
   //     }).then((response) => {
   //       resolve(response)
- 
+
   //     })
 
 
@@ -329,7 +337,7 @@ updateProduct: (proId, proDetails, urls, img) => {
       discount = productDiscount
     }
 
-  
+
     return new Promise((resolve, reject) => {
       const productss = products.map((data) => {
         data.categoryOffer = Math.ceil(data.Price - data.Price * (discount / 100))
@@ -338,17 +346,17 @@ updateProduct: (proId, proDetails, urls, img) => {
           $set: {
             categoryOffer: data.categoryOffer,
             categoryDiscount: discount,
-            offer:discount,
-            Offerprice:data.categoryOffer,
+            offer: discount,
+            Offerprice: data.categoryOffer,
           }
         }).then((response) => {
-     
+
         })
 
         db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ Name: proDetails.Name },
           { $set: { categoryDiscount: discount } })
           .then((response) => {
-          
+
           })
         return data
       })
@@ -358,82 +366,82 @@ updateProduct: (proId, proDetails, urls, img) => {
 
   },
 
-    //DELETE PORDUCT OFFER
-    deleteProductOffer: (prodId, product) => {
-  
-      return new Promise((resolve, reject) => {
-        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) },
-          {
-            $set: { offer: 0 }
-          }
-        ).then((product) => {
-          db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(prodId) }).then(async (product) => {
-            if (product.offer == 0 && product.categoryDiscount == 0) {
-              product.OfferPrice = product.Price
-              db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {
-                $set: {
-                  Offerprice: product.Price,
-                  Price: product.Price,
-                  offer: 0
-                }
-              })
-            } else if (product.offer <= product.categoryDiscount) {
-              let temp = (product.Price * product.categoryDiscount) / 100
-              let updatedOfferPrice = (product.Price - temp)
-              let updatedProduct = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
-                {
-                  _id: prodId
-                },
-                {
-                  $set: {
-                    Offerprice: updatedOfferPrice,
-                    Price: 0,
-                    offer: product.categoryDiscount
-                  }
-                }
-              )
-              resolve(updatedProduct)
+  //DELETE PORDUCT OFFER
+  deleteProductOffer: (prodId, product) => {
 
-            }
-          })
-          resolve()
-        })
-      })
-    },
-
-    //DELETE CATEGORY OFFER
-    deleteCategoryOffer: (category) => {
-
-      return new Promise(async (resolve, reject) => {
-        db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ Name: category.Name }, { $set: { categoryDiscount: 0 } })
-        db.get().collection(collection.PRODUCT_COLLECTION).updateMany({ Category: category.Name }, { $set: { categoryDiscount: 0 } }).then(async (response) => {
-          let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: category.Name }).toArray()
-
-          for (i = 0; i < products.length; i++) {
-            if (products[i].offer == 0 && products[i].categoryDiscount == 0) {
-              products[i].Offerprice = products[i].Price
-              db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(products[i]._id) }, { $set: { Offerprice: products[i].Offerprice, offer: 0 } })
-            } else if (products[i].categorydiscount < products[i].offer) {
-              let temp = (products[i].Price * products[i].offer) / 100
-              let updatedOfferPrice = (products[i].Price - temp)
-              db.get().collection(collection.PRODUCT_COLLECTION).updateOne({
-                _id: objectId(products[i]._id)
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) },
+        {
+          $set: { offer: 0 }
+        }
+      ).then((product) => {
+        db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(prodId) }).then(async (product) => {
+          if (product.offer == 0 && product.categoryDiscount == 0) {
+            product.OfferPrice = product.Price
+            db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {
+              $set: {
+                Offerprice: product.Price,
+                Price: product.Price,
+                offer: 0
+              }
+            })
+          } else if (product.offer <= product.categoryDiscount) {
+            let temp = (product.Price * product.categoryDiscount) / 100
+            let updatedOfferPrice = (product.Price - temp)
+            let updatedProduct = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+              {
+                _id: prodId
               },
-                {
-                  $set: {
-                    Offerprice: updatedOfferPrice,
-                    offer: products[i].offer
-                  }
+              {
+                $set: {
+                  Offerprice: updatedOfferPrice,
+                  Price: 0,
+                  offer: product.categoryDiscount
                 }
-              )
-            }
+              }
+            )
+            resolve(updatedProduct)
+
           }
         })
         resolve()
-      })
-    },
-  
-  
+      })
+    })
+  },
+
+  //DELETE CATEGORY OFFER
+  deleteCategoryOffer: (category) => {
+
+    return new Promise(async (resolve, reject) => {
+      db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ Name: category.Name }, { $set: { categoryDiscount: 0 } })
+      db.get().collection(collection.PRODUCT_COLLECTION).updateMany({ Category: category.Name }, { $set: { categoryDiscount: 0 } }).then(async (response) => {
+        let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: category.Name }).toArray()
+
+        for (i = 0; i < products.length; i++) {
+          if (products[i].offer == 0 && products[i].categoryDiscount == 0) {
+            products[i].Offerprice = products[i].Price
+            db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(products[i]._id) }, { $set: { Offerprice: products[i].Offerprice, offer: 0 } })
+          } else if (products[i].categorydiscount < products[i].offer) {
+            let temp = (products[i].Price * products[i].offer) / 100
+            let updatedOfferPrice = (products[i].Price - temp)
+            db.get().collection(collection.PRODUCT_COLLECTION).updateOne({
+              _id: objectId(products[i]._id)
+            },
+              {
+                $set: {
+                  Offerprice: updatedOfferPrice,
+                  offer: products[i].offer
+                }
+              }
+            )
+          }
+        }
+      })
+      resolve()
+    })
+  },
+
+
 
   categoryOfferDetails: () => {
 
@@ -446,17 +454,44 @@ updateProduct: (proId, proDetails, urls, img) => {
 
   },
 
-  updateCategory: (catId, catDetails) => {
-    return new Promise((resolve, reject) => {
+  // updateCategory: (catId, catDetails) => {
+  //   return new Promise((resolve, reject) => {
+  //     db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: objectId(catId) }, {
+  //       $set: {
+  //         Name: catDetails.Name
+  //       }
+  //     }).then((response) => {
+  //       resolve()
+  //     })
+  //   })
+  // },
+
+  updateCategory: (catId, catDetails, urls, img) => {
+    return new Promise(async (resolve, reject) => {
+      let cat = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectId(catId) })
+
+      let image1 = cat.image[0]
+      let uploadImg = []
+      if (img.img1) {
+        uploadImg[0] = urls[0]
+        if (urls == null) {
+        } else {
+          urls.shift()
+        }
+      } else {
+        uploadImg[0] = image1
+      }
       db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: objectId(catId) }, {
         $set: {
-          Name: catDetails.Name
+          Name: catDetails.Name,
+          image: uploadImg
         }
       }).then((response) => {
         resolve()
       })
     })
   },
+
 
   getProductDetails: (proId) => {
     return new Promise((resolve, reject) => {

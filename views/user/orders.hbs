@@ -34,7 +34,6 @@
           <td>{{this.totalAmount}}</td>
           <td>{{this.paymentMethod}}</td>
           <td>{{this.status}}</td>
-
           <td>
 
 
@@ -42,8 +41,36 @@
 
           </td>
           <td>
-            <a href="/cancel-order/{{this._id}}" class="btn btn-danger rounded font-sm "
-              onclick="return confirm('Are you sure to cancel order {{this.Name}}?')">Cancel Order</a>
+            {{!-- <a href="/cancel-order/{{this._id}}" class="btn btn-danger rounded font-sm "
+              onclick="return confirm('Are you sure to cancel order {{this.Name}}?')">Cancel Order</a> --}}
+               {{#ifCheck this.status "shipped"}}
+              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+              {{/ifCheck}}
+              {{#ifCheck this.status "pending"}}
+              {{!-- <a href="/users/cancelorder/{{this._id}}" class="btn btn-primary">Cancel Order</a> --}}
+              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+              {{/ifCheck}}
+
+              {{#ifCheck this.status "placed"}}
+              <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')">Cancel Order</button>
+              {{/ifCheck}}
+
+
+
+
+
+
+              {{#ifCheck this.status "delivered"}}
+              {{!-- <a href="/users/returnorder/{{this._id}}" class="btn btn-danger">Return Order</a> --}}
+              <button class="btn btn-danger" onclick="returnOrder('{{this._id}}')">Return Order</button>
+              {{/ifCheck}}
+
+
+
+
+              {{#ifCheck this.status "canceled"}}
+              <p>order canceled</p>
+              {{/ifCheck}}
           </td>
 
           <td>
@@ -56,3 +83,85 @@
     </table>
   </div>
 </section>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+ 
+ //RETURN ORDER CANCEL
+  function returnOrder(orderId) {
+
+    swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to return the order",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Return  my order",
+      cancelButtonText: "No, return please!",
+      closeOnConfirm: false,
+      closeOnCancel: true
+    }).then((result)=>{
+      if(result.isConfirmed){
+      
+             $.ajax({
+            url: '/return-order',
+            method: 'post',
+            data: {
+              orderId
+            },
+            success: (response) => {
+              if (response.status) {
+                location.reload()
+
+              } else {
+                return false
+              }
+            }
+          })
+      }
+    })
+  }
+
+
+
+
+  //USER ORDER CANCEL this is workingggggg
+function cancelOrder(orderId) {
+ 
+  swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to cancel the order",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "Yes, Cancel my order",
+    cancelButtonText: "No, cancel please!",
+    closeOnConfirm: false,
+    closeOnCancel: true
+  }).then((result)=>{
+     if (result.isConfirmed) {
+        
+        $.ajax({
+          url: '/cancel-order',
+          method: 'post',
+          data: {
+            orderId
+
+          },
+          success: (response) => {
+            if (response.status) {
+              location.reload()
+
+            } else {
+              return false
+            }
+          }
+        })
+      }
+  })
+}
+
+
+</script>

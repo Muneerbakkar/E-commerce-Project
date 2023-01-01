@@ -171,9 +171,10 @@ module.exports = {
                 {
 
                   $pull: { products: ObjectId(proId) }
-
+                 
                 })
-              resolve();
+                resolve()
+              
             });
         } else {
           db.get()
@@ -185,7 +186,12 @@ module.exports = {
               }
             )
             .then((response) => {
+              db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) },
+              {
 
+                $pull: { products: ObjectId(proId) }
+               
+              })
        
               resolve();
             });
@@ -199,7 +205,12 @@ module.exports = {
           .collection(collection.CART_COLLECTION)
           .insertOne(cartObj)
           .then((response) => {
+            db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) },
+            {
 
+              $pull: { products: ObjectId(proId) }
+             
+            })
     
             resolve();
           });
@@ -413,52 +424,7 @@ module.exports = {
   },
 
 
-  // getTotalAmount: (userId) => {
-  //   console.log(userId);
-  //   return new Promise(async (resolve, reject) => {
-  //     let total = await db
-  //       .get()
-  //       .collection(collection.CART_COLLECTION)
-  //       .aggregate([
-  //         {
-  //           $match: { user: ObjectId(userId) },
-  //         },
-  //         {
-  //           $unwind: { path: "$products" },
-  //         },
-  //         {
-  //           $project: {
-  //             item: "$products.item",
-  //             quantity: "$products.quantity",
-  //           },
-  //         },
-  //         {
-  //           $lookup: {
-  //             from: collection.PRODUCT_COLLECTION,
-  //             localField: "item",
-  //             foreignField: "_id",
-  //             as: "product",
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             item: 1,
-  //             quantity: 1,
-  //             product: { $arrayElemAt: ["$product", 0] },
-  //           },
-  //         },
-  //         {
-  //           $group:{
-  //             _id:null,
-  //             total:{$sum:{$multiply:[{$toInt:"$quantity"},{$toInt:"$product.price"}]}}
-  //         }
-  //       }
-  //       ])
-  //       .toArray();
-  //     console.log(total);
-  //     resolve({status:true});
-  //   });
-  // }
+ 
   getTotalAmount: (userId) => {
     return new Promise(async (resolve, reject) => {
     
@@ -786,6 +752,31 @@ module.exports = {
     })
 
   },
+
+  returnOrder: (orderId, userId) => {
+    return new Promise(async (resolve, reject) => {
+        db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) },
+            { $set: { status: "return" } })
+
+
+        let order = await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: ObjectId(orderId) })
+        const obj = {
+            orderId: new ObjectId(),
+            date: new Date().toDateString(),
+            reference: order._id,
+            mode: "Credit",
+            type: "Refund",
+            amount: order.totalAmount,
+        }
+
+        let amt = parseInt(order.totalAmount)
+        await db.get().collection(collection.WALLET_COLLECTION).updateOne({ userId: ObjectId(userId) }, { $inc: { walletBalance: amt }, $push: { transaction: obj } })
+
+        resolve({status:true});
+    }
+    )
+},
+
 
   generateRazorpay: (orderId, totalPrice) => {
   

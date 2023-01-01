@@ -1,4 +1,5 @@
 var express = require("express");
+require('dotenv').config();
 var router = express.Router();
 var productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
@@ -8,7 +9,8 @@ const otp = require("../helpers/OTPhelpers");
 const collection = require("../config/collections");
 const db = require("../config/connection");
 const { ObjectID, ObjectId } = require("bson");
-const client = require("twilio")(otp.accoundSid, otp.authToken);
+// const client = require('twilio')(otp.accoundSid, otp.authToken);
+const client = require('twilio')(process.env.ACCOUNTSID,process.env.AUTHTOKEN);
 
 // const verifyLogin = (req, res, next) => {
 //   if (req.session.userLoggedIn) {
@@ -59,7 +61,7 @@ router.get("/login", (req, res, next) => {
   if (req.session.user) {
     res.redirect("/");
   } else {
-  
+
     let loginErr = req.session.loginErr;
 
     res.render("user/login", { loginErr, user });
@@ -84,7 +86,7 @@ router.post('/signup', (req, res) => {
 
   let userData = req.body
   userHelpers.doSignup(userData).then((resolve) => {
- 
+
     if (resolve.data) {
       res.redirect('/login')
     } else {
@@ -104,7 +106,7 @@ router.post("/login", async (req, res) => {
       if (response.status) {
         req.session.loggedIn = true;
         req.session.user = response.user;
-      
+
         res.redirect("/");
       } else {
         req.session.loginError = "invalid login id or password";
@@ -166,9 +168,10 @@ router.get("/view-cart", async (req, res) => {
 
 
 
-router.get('/add-to-cart:id', (req, res) => {
+router.get('/add-to-cart:id', async (req, res) => {
 
-
+  let wishList = await userHelpers.getWishlistProducts()
+ 
   userHelper.addToCart(req.params.id, req.session.user._id).then(() => {
     // res.json({status:true})
     res.redirect('/')
@@ -176,7 +179,7 @@ router.get('/add-to-cart:id', (req, res) => {
 });
 
 router.post('/change-product-quantity', (req, res, next) => {
- 
+
   userHelper.changeProductQuantity(req.body).then(async (response) => {
     response.total = await userHelper.getTotalAmount(req.body.user)
     res.json(response)
@@ -200,7 +203,7 @@ router.get('/place-order', async (req, res) => {
   let wallet = await userHelpers.getWallet(req.session.user._id)
 
 
-  res.render("user/checkout", { total, address, user: req.session.user, couponDetails,wallet })
+  res.render("user/checkout", { total, address, user: req.session.user, couponDetails, wallet })
 })
 
 router.post('/place-order', async (req, res) => {
@@ -210,7 +213,7 @@ router.post('/place-order', async (req, res) => {
   let wallet = await userHelpers.getWallet(userId)
   let totalPrice
   let discountCoupon
-  total =parseInt(req.body.total)
+  total = parseInt(req.body.total)
 
   let products = await userHelpers.getCartProductList(req.session.user._id)
   if (req.body.discount) {
@@ -232,9 +235,9 @@ router.post('/place-order', async (req, res) => {
       userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
         res.json(response)
       })
-    } 
-    else if(req.body['payment-method'] == 'wallet')  {
-      console.log("wallet")
+    }
+    else if (req.body['payment-method'] == 'wallet') {
+
       userHelpers.walletPurchase(userId, wallet, totalPrice, products).then((response) => {
         // userHelpers.placeOrder(address, products, totalPrice, req.body['payment-method'], userId, wallet)
         // .then((orderId) => {
@@ -245,8 +248,8 @@ router.post('/place-order', async (req, res) => {
         res.json({ walletFailure: true })
       })
 
-    }else{
-      res.json({error:true})
+    } else {
+      res.json({ error: true })
     }
 
   })
@@ -263,13 +266,13 @@ router.post('/redeem-coupon', async (req, res) => {
     if (totalAmount >= couponData.minPrice) {
 
       let temp = (totalAmount * couponData.couponOffer) / 100
-  
+
       if (temp < couponData.priceLimit) {
-      
+
         totalAmount = (totalAmount - temp)
-    
+
       } else if (temp >= couponData.priceLimit) {
-        
+
         temp = couponData.priceLimit
         totalAmount = (totalAmount - temp)
       }
@@ -341,7 +344,6 @@ router.get('/invoice', async (req, res) => {
 router.get('/wishlist', async (req, res) => {
   let user = req.session.user._id
   let products = await userHelper.getWishlistProducts(user)
-
   res.render('user/wishlist', { products, user })
 })
 
@@ -376,59 +378,102 @@ router.get("/delete-cart/:id", (req, res) => {
   });
 });
 
-router.get("/cancel-order/:id", (req, res) => {
-  let id = req.params.id
-  userHelper.cancelOrder(id).then((response) => {
-    res.redirect("/orders")
+// router.post("/cancel-order/:id", (req, res) => {
+//   let id = req.params.id
+//   userHelper.cancelOrder(id).then((response) => {
+//     res.redirect("/orders")
+//   })
+// })
+
+
+router.post('/cancel-order', (req, res) => {
+  let orderId = req.body.orderId
+  let userId = req.session.user._id
+
+  userHelpers.cancelOrder(orderId, userId).then((response) => {
+    res.json({ status: true })
   })
 })
 
+router.post('/return-order', (req, res) => {
 
+  let orderId = req.body.orderId
+  let userId = req.session.user._id
 
-
+  userHelpers.returnOrder(orderId, userId).then((response) => {
+    res.json({ status: true })
+  })
+})
 
 
 router.get("/otp_page", (req, res) => {
   res.render("user/userMobile");
 });
 
-router.get("/otp_verify", (req, res) => {
-  client.verify
-    .services(otp.serviceId)
-    .verificationChecks.create({
-      to: `+${req.query.Phone}`,
-      code: req.query.code,
+router.get('/otp_verify', (req, res) => {
+
+  client
+    .verify
+    // .services(otp.serviceId)
+    .services(process.env.SERVICESID)
+    .verificationChecks
+    .create({
+      to: `+${req.query.phoneNumber}`,
+      code: req.query.code
     })
     .then(async (data) => {
       if (data.valid) {
         let Number = data.to.slice(3);
-        let userData = await db
-          .get()
-          .collection(collection.USER_COLLECTION)
-          .findOne({ Phone: Number });
-        if (userData.Phone == Number) {
+        let userData = await db.get().collection(collection.USER_COLLECTION).findOne({ mobile: Number });
+        if (userData.mobile == Number) {
           req.session.user = userData;
-          res.send({ value: "success" });
+          res.send({ value: 'success' })
         } else {
-          res.send({ value: "failed" });
+          res.send({ value: 'failed' })
         }
+
       } else {
-        res.send({ value: "failed" });
+        res.send({ value: 'failed' })
       }
-    });
+    })
 }),
-  router.get("/otp_login", (req, res) => {
-    client.verify
-      .services(otp.serviceId)
-      .verifications.create({
-        to: `+${req.query.Phone}`,
+
+
+
+  // router.get('/otp_login', (req, res) => {
+ 
+  //   client
+  //     .verify
+  //     .services(otp.serviceId)
+  //     .verifications
+  //     .create({
+  //       to: `+${req.query.phoneNumber}`,
+  //       channel: req.query.channel,
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       res.status(200).send(data)
+  //       })
+  //   }),
+
+  router.get('/otp_login', (req, res) => {
+
+    client
+      .verify
+      // .services(otp.serviceId)
+      .services(process.env.SERVICESID)
+      .verifications
+      .create({
+        to: `+${req.query.phoneNumber}`,
         channel: req.query.channel,
       })
       .then((data) => {
-        res.status(200).send(data);
-      });
-  }),
+        console.log(data);
+        res.status(200).send(data)
+      })
+  },
 
+  ),
 
   router.get("/view-Users", async (req, res, next) => {
     return new Promise(async (resolve, reject) => {
@@ -524,6 +569,7 @@ router.get("/single-product", async (req, res) => {
     res.render("user/single-view", { product, user, products })
   })
 })
+
 
 
 

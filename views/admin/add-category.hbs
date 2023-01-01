@@ -13,12 +13,12 @@
                     <form action="/admin/add-category" method="post" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="product_name" class="form-label">Name</label>
-                          
-                            <input type="text" name="Name" placeholder="Type here" class="form-control"                   
+
+                            <input type="text" name="Name" placeholder="Type here" class="form-control"
                                 id="product_name">
-                                
+
                         </div>
-                       
+
 
                         {{!-- <div class=" mb-3">
                             <select class="form-select" id="product-offer" name="Name" required>
@@ -36,7 +36,11 @@
                             <div class="card-body">
                                 <div class="input-upload">
                                     <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="imgView">
-                                    <input name="Image" class="form-control" type="file" onchange="viewImage(event)">
+                                    <input name="image1" class="form-control" type="file" onchange="viewImage(event)">
+                                   
+                                    {{!-- <input type="file" required id="id_image1" name="image1" accept="image/*"
+                                        class="form-control" onchange="viewImage1(event)" style="width:100%;"><br>
+                                    <img src="" id="imgView1" alt="" class="clr" style="height:100px"> --}}
                                 </div>
                             </div>
                         </div> <!-- card end// -->
