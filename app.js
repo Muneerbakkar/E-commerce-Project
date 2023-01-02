@@ -32,19 +32,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(fileUpload())
-app.use(session({secret:"key",cookie:{maxAge:6000000}}))
-// app.use(
-//   session({
-//     secret: "key",
-//     cookie: { maxAge: 6000000 },
-//     resave: true,
-//     store: new mongoDbSesson({
-//       uri: "mongodb://localhost:27017",
-//       collection: "session",
-//     }),
-//     saveUninitialized: true,
-//   })
-// );
+// app.use(session({secret:"key",cookie:{maxAge:6000000}}))
+app.use(
+  session({
+    secret: "key",
+    cookie: { maxAge: 6000000 },
+    resave: true,
+    store: new mongoDbSesson({
+      uri: "mongodb://localhost:27017",
+      collection: "session",
+    }),
+    saveUninitialized: true,
+  })
+);
 
 db.connect((err) => {
   if (err) console.log("Connection Error" + err);

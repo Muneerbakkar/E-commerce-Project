@@ -372,11 +372,14 @@ module.exports = {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) },
         {
-          $set: { offer: 0 }
+          $set: {
+             offer: 0 ,
+             
+          }
         }
       ).then((product) => {
         db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(prodId) }).then(async (product) => {
-          if (product.offer == 0 && product.categoryDiscount == 0) {
+          if (product.offer == 0) {
             product.OfferPrice = product.Price
             db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(prodId) }, {
               $set: {
@@ -414,7 +417,7 @@ module.exports = {
 
     return new Promise(async (resolve, reject) => {
       db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ Name: category.Name }, { $set: { categoryDiscount: 0 } })
-      db.get().collection(collection.PRODUCT_COLLECTION).updateMany({ Category: category.Name }, { $set: { categoryDiscount: 0 } }).then(async (response) => {
+      db.get().collection(collection.PRODUCT_COLLECTION).updateMany({ Category: category.Name }, { $set: { categoryDiscount: 0,offer :0 } }).then(async (response) => {
         let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: category.Name }).toArray()
 
         for (i = 0; i < products.length; i++) {
