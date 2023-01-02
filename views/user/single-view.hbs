@@ -132,16 +132,33 @@
 		<hr>
 		<h3>Rs:{{product.Offerprice}}</h3>
 
-		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-			standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-			type specimen book.</p>
+		<p>{{product.description}}</p>
 
 	
 		{{!-- <a class="btn btn-success" href="#">Add to Cart</a> --}}
-					<button onclick="addToCart('{{this._id}}')" class="btn btn-success">Add To Cart</button>
+					<button onclick="addToCart('{{product._id}}')" class="btn btn-success">Add To Cart</button>
 	</div>
 	
 </div>
+
+<script>
+	function addToCart(proId) {
+		console.log("jjjjjjjjjjjjjjjjjjjjjjj")
+		$.ajax({
+
+			url: '/add-to-cart' + proId,
+			method: 'get',
+			success: (response) => {
+				if (response.status) {
+					let count = $('#cart-count').html()
+					count = parseInt(count) + 1
+					$("#cart-count").html(count)
+				}
+				location.reload()
+			}
+		})
+	}
+</script>
 
 <script type="text/javascript">
 	let thumbnails = document.getElementsByClassName('thumbnail')

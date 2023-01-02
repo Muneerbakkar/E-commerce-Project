@@ -66,8 +66,14 @@ router.post("/adminpage", async (req, res) => {
   });
 });
 
-router.get('/admin-dashboard', (req, res) => {
-  res.render('admin/dashboard', { layout: "adminLayout", admin: true, })
+router.get('/admin-dashboard', async (req, res) => {
+  let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+  let revenue = await adminHelpers.totalRevenue()
+  let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+  let category =  await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
+  console.log(orders,revenue,products,"vvvvvvvvvvvvv");
+  console.log(category,"xxxxxxxxxxxxxxxxxxx");
+  res.render('admin/dashboard', { layout: "adminLayout", admin: true,orders,revenue,products,category})
 })
 
 router.get("/test", async (req, res) => {

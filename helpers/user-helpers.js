@@ -528,7 +528,7 @@ module.exports = {
         totalAmount: parseInt(order.total),
         status: status,
         date: new Date(),
-        displayDate:new Date().toString()
+        displayDate: new Date().toDateString(),
       }
       db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
   

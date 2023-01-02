@@ -158,12 +158,13 @@ router.get("/single-view", (req, res) => {
 router.get("/view-cart", async (req, res) => {
 
   let user = req.session.user._id
+  let category = await productHelpers.getAllCategorys();
   let products = await userHelpers.getCartProducts(user);
   // let category=  await productHelpers.getAllCategory()
   let totalValue = await userHelper.getTotalAmount(user)
 
 
-  res.render("user/cart", { products, user, totalValue });
+  res.render("user/cart", { products, user, totalValue,category });
 });
 
 

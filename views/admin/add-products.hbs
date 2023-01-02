@@ -29,16 +29,25 @@
               </div>
             </div>
           </div> --}}
-          <label for="product_name" class="form-label">Category</label>
-          <input type="text" name="Category" placeholder="Type here" class="form-control" id="product_name">
-          {{!-- <div class=" mb-3">
-            <select class="form-select" id="product-offer" name="Name" required>
+          <label for="product_category" class="form-label">Category</label>
+          {{!-- <input type="text" name="Category" placeholder="Type here" class="form-control" id="product_name"> --}}
+           <select class="form-control" id="product-category" name="Category" required>
               <option selected>Choose Category</option>
               {{#each category}}
               <option value="{{this.Name}}">{{this.Name}}</option>
               {{/each}}
             </select>
-          </div> --}}
+
+          <label for="product_description" class="form-label">Description</label>
+          <input type="text" name="description" placeholder="Type here" class="form-control" id="product_description">
+{{!--          
+            <select class="form-select" id="product-offer" name="Name" required>
+              <option selected>Choose Category</option>
+              {{#each category}}
+              <option value="{{this.Name}}">{{this.Name}}</option>
+              {{/each}}
+            </select> --}}
+          
 
           {{!-- <select class="form-select" id="product-offer" name="Name" required>
             <option selected>Choose Category</option>

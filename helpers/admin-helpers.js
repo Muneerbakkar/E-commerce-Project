@@ -60,9 +60,22 @@ module.exports = {
         })
     },
 
+    totalRevenue: () => {
 
-       //SALES REPORT
-       deliveredOrderList: (yy, mm) => {
+        return new Promise(async (resolve, reject) => {
+          const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+            { $group: { _id: null, sum: { $sum: "$totalAmount" } } },
+            { $project: { _id: 0 } },
+          ]).toArray().then((respo) => {
+            //  console.log(respo[0].sum);       
+            resolve(respo[0]?.sum)
+          })
+        })
+    
+      },
+
+    //SALES REPORT
+    deliveredOrderList: (yy, mm) => {
         return new Promise(async (resolve, reject) => {
             let agg = [{
                 $match: {
@@ -187,23 +200,23 @@ module.exports = {
     // order details
     getOrderDetails: (pagenumber, limit) => {
         return new Promise(async (resolve, reject) => {
-         
+
 
             let orderItems = await db.get().collection(collection.ORDER_COLLECTION).find().skip(pagenumber * limit).limit(limit).toArray()
 
-          
+
             resolve(orderItems)
         })
     },
 
 
     //ORDER STATUS
-    changeOrderStatus: ( orderId, status) => {
-     
+    changeOrderStatus: (orderId, status) => {
+
         return new Promise((resolve, reject) => {
             let dateStatus = new Date()
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id:objectId(orderId) },
-                { $set: { status: status, statusUpdateDate:dateStatus} }).then(() => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) },
+                { $set: { status: status, statusUpdateDate: dateStatus } }).then(() => {
                     resolve(status)
                 })
         })
@@ -251,30 +264,30 @@ module.exports = {
 
     },
 
-    paymentMethod:()=>{
+    paymentMethod: () => {
         console.log('dgdsgbsdbgj');
-        return new Promise(async(resolve, reject) => {
-          await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-            {
-              '$project': {
-                'paymentMethod': 1, 
-                '_id': 0
-              }
-            }, {
-              '$group': {
-                '_id': '$paymentMethod', 
-                'count': {
-                  '$sum': 1
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    '$project': {
+                        'paymentMethod': 1,
+                        '_id': 0
+                    }
+                }, {
+                    '$group': {
+                        '_id': '$paymentMethod',
+                        'count': {
+                            '$sum': 1
+                        }
+                    }
                 }
-              }
-            }
-          ]).toArray().then((response)=>{
-            console.log(response,"jjjjjjjjjgggggggggggggg");
-            resolve(response)
+            ]).toArray().then((response) => {
+                console.log(response, "jjjjjjjjjgggggggggggggg");
+                resolve(response)
 
-          })
-        })
-      },
+            })
+        })
+    },
 
 
     //GET COUPONS
@@ -294,6 +307,7 @@ module.exports = {
         data.minPrice = Number(data.minPrice)
         data.priceLimit = Number(data.priceLimit)
         data.expDate = new Date(data.expDate)
+        data.displayDate = new Date(data.expDate).toDateString()
         data.user = []
         return new Promise(async (resolve, reject) => {
             let couponCheck = await db.get().collection(collection.COUPON_COLLECTION).findOne({ coupon: data.coupon })
